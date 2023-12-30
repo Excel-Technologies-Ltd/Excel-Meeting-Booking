@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include excel_meeting_booking *.css
+recursive-include excel_meeting_booking *.csv
+recursive-include excel_meeting_booking *.html
+recursive-include excel_meeting_booking *.ico
+recursive-include excel_meeting_booking *.js
+recursive-include excel_meeting_booking *.json
+recursive-include excel_meeting_booking *.md
+recursive-include excel_meeting_booking *.png
+recursive-include excel_meeting_booking *.py
+recursive-include excel_meeting_booking *.svg
+recursive-include excel_meeting_booking *.txt
+recursive-exclude excel_meeting_booking *.pyc
