@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:excel_meeting_room",
+ "creation": "2023-12-31 01:19:49.083374",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "excel_company",
+  "excel_branch",
+  "excel_building",
+  "excel_floor",
+  "excel_meeting_room",
+  "capacity",
+  "amenities",
+  "location",
+  "picture"
+ ],
+ "fields": [
+  {
+   "fieldname": "excel_company",
+   "fieldtype": "Data",
+   "label": "Excel Company"
+  },
+  {
+   "fieldname": "excel_branch",
+   "fieldtype": "Link",
+   "label": "Excel Branch",
+   "options": "Excel Branch"
+  },
+  {
+   "fieldname": "excel_building",
+   "fieldtype": "Link",
+   "label": "Excel Building",
+   "options": "Excel Building"
+  },
+  {
+   "fieldname": "excel_floor",
+   "fieldtype": "Link",
+   "label": "Excel Floor",
+   "options": "Excel Floor"
+  },
+  {
+   "fieldname": "excel_meeting_room",
+   "fieldtype": "Data",
+   "label": "Excel Meeting Room",
+   "unique": 1
+  },
+  {
+   "fieldname": "capacity",
+   "fieldtype": "Data",
+   "label": "Capacity"
+  },
+  {
+   "fieldname": "amenities",
+   "fieldtype": "Table",
+   "label": "Amenities",
+   "options": "Amenities"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "picture",
+   "fieldtype": "Attach Image",
+   "label": "Picture "
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-13 13:30:56.510475",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Excel Meeting Room",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "excel_meeting_room"
+}

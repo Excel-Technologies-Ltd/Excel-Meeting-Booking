@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-12-31 01:15:09.961640",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "excel_company",
+  "excel_branch",
+  "excel_building",
+  "excel_floor"
+ ],
+ "fields": [
+  {
+   "fieldname": "excel_company",
+   "fieldtype": "Link",
+   "label": "Excel Company",
+   "options": "Excel Compnay"
+  },
+  {
+   "fieldname": "excel_branch",
+   "fieldtype": "Link",
+   "label": "Excel Branch",
+   "options": "Excel Branch"
+  },
+  {
+   "fieldname": "excel_building",
+   "fieldtype": "Link",
+   "label": "Excel Building",
+   "options": "Excel Building"
+  },
+  {
+   "fieldname": "excel_floor",
+   "fieldtype": "Data",
+   "label": "Excel Floor"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-12-31 01:50:32.880667",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Excel Floor",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

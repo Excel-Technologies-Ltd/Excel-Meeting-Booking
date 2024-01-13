@@ -1,0 +1,102 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-03 17:03:19.619602",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "meeting_room",
+  "meeting_date",
+  "excel_start_time",
+  "duration",
+  "excel_end_time",
+  "guest",
+  "description",
+  "excel_branch",
+  "excel_floor",
+  "excel_building"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "meeting_room",
+   "fieldtype": "Link",
+   "label": "Meeting Room",
+   "options": "Excel Meeting Room"
+  },
+  {
+   "fieldname": "meeting_date",
+   "fieldtype": "Date",
+   "label": "Meeting Date"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Duration",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "guest",
+   "fieldtype": "Table",
+   "label": "Guest",
+   "options": "Guest"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "excel_start_time",
+   "fieldtype": "Data",
+   "label": "Excel Start Time"
+  },
+  {
+   "fieldname": "excel_end_time",
+   "fieldtype": "Data",
+   "label": "Excel End Time"
+  },
+  {
+   "fieldname": "excel_branch",
+   "fieldtype": "Data",
+   "label": "Excel Branch"
+  },
+  {
+   "fieldname": "excel_floor",
+   "fieldtype": "Data",
+   "label": "Excel Floor"
+  },
+  {
+   "fieldname": "excel_building",
+   "fieldtype": "Data",
+   "label": "Excel Building"
+  }
+ ],
+ "links": [],
+ "modified": "2024-01-13 13:40:45.058981",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Meeting List",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

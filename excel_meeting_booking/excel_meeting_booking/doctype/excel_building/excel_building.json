@@ -1,0 +1,59 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{excel_buidling}-{#####}",
+ "creation": "2023-12-31 01:11:48.014249",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "excel_company",
+  "excel_branch",
+  "excel_buidling"
+ ],
+ "fields": [
+  {
+   "fieldname": "excel_company",
+   "fieldtype": "Data",
+   "label": "Excel Company"
+  },
+  {
+   "fieldname": "excel_branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Excel Branch",
+   "options": "Excel Branch"
+  },
+  {
+   "fieldname": "excel_buidling",
+   "fieldtype": "Data",
+   "label": "Excel Buidling "
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-04 16:21:05.373027",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Excel Building",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
