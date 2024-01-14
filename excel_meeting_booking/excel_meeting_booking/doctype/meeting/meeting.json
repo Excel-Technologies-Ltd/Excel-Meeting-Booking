@@ -17,7 +17,9 @@
   "description",
   "excel_branch",
   "excel_floor",
-  "excel_building"
+  "excel_building",
+  "start_datetime",
+  "end_datetime"
  ],
  "fields": [
   {
@@ -76,13 +78,23 @@
    "fieldname": "excel_building",
    "fieldtype": "Data",
    "label": "Excel Building"
+  },
+  {
+   "fieldname": "start_datetime",
+   "fieldtype": "Datetime",
+   "label": "Start Datetime"
+  },
+  {
+   "fieldname": "end_datetime",
+   "fieldtype": "Datetime",
+   "label": "End Datetime"
   }
  ],
  "links": [],
- "modified": "2024-01-13 13:40:45.058981",
+ "modified": "2024-01-13 15:21:25.988226",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
- "name": "Meeting List",
+ "name": "Meeting",
  "owner": "Administrator",
  "permissions": [
   {

@@ -7,20 +7,21 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "meeting_room",
-  "meeting_date",
-  "start_time",
-  "end_time",
-  "amended_from",
+  "existing_meetings",
+  "section_break_bakup",
   "title",
   "excel_branch",
-  "excel_building",
-  "excel_floor",
+  "meeting_room",
   "start_date",
+  "recursion",
   "end_date",
+  "column_break_spstu",
+  "start_time",
   "duration",
+  "end_time",
   "guest",
-  "description"
+  "description",
+  "amended_from"
  ],
  "fields": [
   {
@@ -29,12 +30,6 @@
    "in_list_view": 1,
    "label": "Meeting Room ",
    "options": "Excel Meeting Room",
-   "reqd": 1
-  },
-  {
-   "fieldname": "meeting_date",
-   "fieldtype": "Date",
-   "label": "Meeting Date",
    "reqd": 1
   },
   {
@@ -47,6 +42,7 @@
    "fieldname": "end_time",
    "fieldtype": "Time",
    "label": "End Time",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -62,37 +58,36 @@
   {
    "fieldname": "title",
    "fieldtype": "Data",
-   "label": "Title "
+   "label": "Title ",
+   "reqd": 1
   },
   {
    "fieldname": "excel_branch",
-   "fieldtype": "Data",
-   "label": "Excel Branch "
+   "fieldtype": "Link",
+   "label": "Excel Branch ",
+   "options": "Excel Branch",
+   "reqd": 1
   },
   {
-   "fieldname": "excel_building",
-   "fieldtype": "Data",
-   "label": "Excel Building"
-  },
-  {
-   "fieldname": "excel_floor",
-   "fieldtype": "Data",
-   "label": "Excel Floor "
-  },
-  {
+   "default": "Today",
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Start Date"
+   "label": "Start Date",
+   "reqd": 1
   },
   {
+   "default": "Today",
    "fieldname": "end_date",
    "fieldtype": "Date",
-   "label": "End Date"
+   "label": "End Date",
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "duration",
-   "fieldtype": "Data",
-   "label": "Duration "
+   "fieldtype": "Duration",
+   "label": "Duration ",
+   "reqd": 1
   },
   {
    "fieldname": "guest",
@@ -104,12 +99,31 @@
    "fieldname": "description",
    "fieldtype": "Data",
    "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "recursion",
+   "fieldtype": "Check",
+   "label": "Recursion"
+  },
+  {
+   "fieldname": "column_break_spstu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "existing_meetings",
+   "fieldtype": "HTML",
+   "label": "Existing Meetings"
+  },
+  {
+   "fieldname": "section_break_bakup",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-13 14:07:24.571500",
+ "modified": "2024-01-13 17:43:12.889491",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting Room Booking",

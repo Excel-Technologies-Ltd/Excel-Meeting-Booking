@@ -15,8 +15,10 @@ class MeetingRoomBooking(Document):
         all_date=self.get_dates_between()
         for date in all_date:
             self.check_meeting_time(date)
+            start_datetime=f"{date} {self.start_time}"
+            end_datetime=f"{date} {self.end_time}"
             new_data=frappe.get_doc({
-                "doctype":"Meeting List",
+                "doctype":"Meeting",
                 "meeting_date":date,
                 "excel_start_time":self.start_time,
                 "excel_end_time":self.end_time,
@@ -25,20 +27,22 @@ class MeetingRoomBooking(Document):
                 "guest":self.guest,
                 "description":self.description,
                 "excel_branch":self.excel_branch,
-                "duration":self.duration
+                "duration":self.duration,
+                "start_datetime":start_datetime,
+                "end_datetime":end_datetime,
             }).insert()
             
     def cancel_meeting(self):
         all_date=self.get_dates_between()
         for date in all_date:
-            id=frappe.db.get_value("Meeting List", filters={"meeting_date": date,"meeting_room":self.meeting_room, "excel_start_time":self.start_time, "excel_end_time":self.end_time,"excel_branch":self.branch}, fieldname=["name"])
-            frappe.delete_doc('Meeting List',id)
+            id=frappe.db.get_value("Meeting", filters={"meeting_date": date,"meeting_room":self.meeting_room, "excel_start_time":self.start_time, "excel_end_time":self.end_time,"excel_branch":self.branch}, fieldname=["name"])
+            frappe.delete_doc('Meeting',id)
 
             
 
                      
     def check_meeting_time(self,date):
-        existing_time_slots = frappe.db.get_list("Meeting List",
+        existing_time_slots = frappe.db.get_list("Meeting",
             filters={
                 'meeting_date': date,
                 'meeting_room': self.meeting_room
