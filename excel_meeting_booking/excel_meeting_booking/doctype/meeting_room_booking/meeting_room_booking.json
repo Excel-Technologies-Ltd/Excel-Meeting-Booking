@@ -112,8 +112,10 @@
   },
   {
    "fieldname": "existing_meetings",
-   "fieldtype": "HTML",
-   "label": "Existing Meetings"
+   "fieldtype": "Table",
+   "label": "Existing Meetings",
+   "options": "Existing Meetings",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_bakup",
@@ -123,7 +125,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-13 17:43:12.889491",
+ "modified": "2024-01-15 12:03:41.305192",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting Room Booking",

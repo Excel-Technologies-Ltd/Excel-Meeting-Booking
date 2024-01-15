@@ -151,7 +151,6 @@ app_license = "MIT"
 
 # Testing
 # -------
-
 # before_tests = "excel_meeting_booking.install.before_tests"
 
 # Overriding Methods
