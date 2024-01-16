@@ -13,6 +13,12 @@ class MeetingRoomBooking(Document):
     #    need to stop here
     def create_meeting(self):
         all_date=self.get_dates_between()
+        days_name=self.get_day()
+        if self.repeat_on =="Weekly":
+            days_name=self.get_day()
+            all_date=self.filter_dates_by_day_type(all_date,days_name,self.repeat_on.lower())
+        if self.repeat_on=='Monthly':
+            all_date=self.check_and_push_array(all_date)  
         for date in all_date:
             self.check_meeting_time(date)
             start_datetime=f"{date} {self.start_time}"
@@ -24,7 +30,7 @@ class MeetingRoomBooking(Document):
                 "excel_end_time":self.end_time,
                 "title":self.title,
                 "meeting_room":self.meeting_room,
-                "guest":self.guest,
+                "guest":self.guests,
                 "description":self.description,
                 "excel_branch":self.excel_branch,
                 "duration":self.duration,
@@ -34,9 +40,18 @@ class MeetingRoomBooking(Document):
             
     def cancel_meeting(self):
         all_date=self.get_dates_between()
+        if self.repeat_on =="Weekly":
+            days_name=self.get_day()
+            all_date=self.filter_dates_by_day_type(all_date,days_name,self.repeat_on.lower())
+        if self.repeat_on=='Monthly':
+            all_date=self.check_and_push_array(all_date)            
         for date in all_date:
-            id=frappe.db.get_value("Meeting", filters={"meeting_date": date,"meeting_room":self.meeting_room, "excel_start_time":self.start_time, "excel_end_time":self.end_time,"excel_branch":self.branch}, fieldname=["name"])
-            frappe.delete_doc('Meeting',id)
+            id = frappe.db.get_value("Meeting", filters={"meeting_date": date, "meeting_room": self.meeting_room, "excel_start_time": self.start_time, "excel_end_time": self.end_time, "excel_branch": self.excel_branch}, fieldname=["name"])
+            if id:
+                frappe.delete_doc('Meeting', id)
+                print(f"Meeting {id} deleted")
+            else:
+                print(f"No meeting found for date: {date}")
 
             
 
@@ -76,9 +91,14 @@ class MeetingRoomBooking(Document):
 
         return True
     def get_dates_between(self):
+        recursion=self.recursion
         start_date = datetime.datetime.strptime(str(self.start_date), "%Y-%m-%d")
-        end_date = datetime.datetime.strptime(str(self.end_date), "%Y-%m-%d")
-
+        if recursion==0:
+            end_date=start_date
+        else:end_date = datetime.datetime.strptime(str(self.end_date), "%Y-%m-%d")
+        if recursion==1:
+            if start_date> end_date:
+                return   frappe.msgprint(f"start date should not bigger than end date")
         date_list = []
 
         current_date = start_date
@@ -87,6 +107,43 @@ class MeetingRoomBooking(Document):
             current_date += datetime.timedelta(days=1)
 
         return date_list  
-    def delete_meeting_list(self):
-        print()
+
+    def filter_dates_by_day_type(self,dates, day_names, day_type):
+        
+        result_dates = []
+        
+        for date_str in dates:
+            date_obj = datetime.datetime.strptime(str(date_str), "%Y-%m-%d")
+            if day_type == 'weekly' and date_obj.strftime('%A') in day_names:
+                result_dates.append(date_str)
+            # elif day_type == 'monthly' and date_obj.strftime('%A') in day_names and date_obj.day <= 7:
+            #     result_dates.append(date_str)
+        if not result_dates:
+            frappe.throw("No dates found for the selected criteria. May be you not selected days or selected wrong day")        
+        return result_dates
+    def get_day(self):
+        days=[]
+        day_attributes = {
+            "Saturday": getattr(self, "saturday", 0),
+            "Sunday": getattr(self, "sunday", 0),
+            "Monday": getattr(self, "monday", 0),
+            "Tuesday": getattr(self, "tuesday", 0),
+            "Wednesday": getattr(self, "wednesday", 0),
+            "Thursday": getattr(self, "thursday", 0),
+            "Friday": getattr(self, "friday", 0),
+        }
+        for day_name, day_value in day_attributes.items():
+            if day_value == 1:
+                days.append(day_name)
+        return days       
+    def check_and_push_array(self,input_dates):
+        result_array = []
+        day_of_date = datetime.datetime.strptime(str(self.start_date), "%Y-%m-%d")
+        for date_str in input_dates:
+            # Check if the day part of the date is '13'
+            if date_str.split('-')[2] == day_of_date.strftime('%d'):
+                result_array.append(date_str)
+
+        return result_array
+                
 

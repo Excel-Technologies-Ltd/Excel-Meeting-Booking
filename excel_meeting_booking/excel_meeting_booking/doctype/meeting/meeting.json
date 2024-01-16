@@ -12,10 +12,10 @@
   "meeting_date",
   "excel_start_time",
   "duration",
+  "excel_branch",
   "excel_end_time",
   "guest",
   "description",
-  "excel_branch",
   "excel_floor",
   "excel_building",
   "start_datetime",
@@ -57,41 +57,47 @@
   {
    "fieldname": "excel_start_time",
    "fieldtype": "Data",
-   "label": "Excel Start Time"
+   "label": "Start Time"
   },
   {
    "fieldname": "excel_end_time",
    "fieldtype": "Data",
-   "label": "Excel End Time"
+   "label": "End Time"
   },
   {
    "fieldname": "excel_branch",
    "fieldtype": "Data",
-   "label": "Excel Branch"
+   "label": "Branch"
   },
   {
    "fieldname": "excel_floor",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Excel Floor"
   },
   {
    "fieldname": "excel_building",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Excel Building"
   },
   {
    "fieldname": "start_datetime",
    "fieldtype": "Datetime",
+   "hidden": 1,
    "label": "Start Datetime"
   },
   {
    "fieldname": "end_datetime",
    "fieldtype": "Datetime",
+   "hidden": 1,
    "label": "End Datetime"
   }
  ],
+ "icon": "fa fa-calendar",
+ "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2024-01-13 15:21:25.988226",
+ "modified": "2024-01-16 18:32:49.307367",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting",

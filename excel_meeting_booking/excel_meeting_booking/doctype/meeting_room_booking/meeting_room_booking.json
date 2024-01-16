@@ -14,12 +14,20 @@
   "meeting_room",
   "start_date",
   "recursion",
+  "repeat_on",
+  "saturday",
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
   "end_date",
   "column_break_spstu",
   "start_time",
   "duration",
   "end_time",
-  "guest",
+  "guests",
   "description",
   "amended_from"
  ],
@@ -76,24 +84,16 @@
    "reqd": 1
   },
   {
-   "default": "Today",
+   "depends_on": "eval:doc.recursion===1",
    "fieldname": "end_date",
    "fieldtype": "Date",
-   "label": "End Date",
-   "read_only": 1,
-   "reqd": 1
+   "label": "End Date"
   },
   {
    "fieldname": "duration",
    "fieldtype": "Duration",
    "label": "Duration ",
    "reqd": 1
-  },
-  {
-   "fieldname": "guest",
-   "fieldtype": "Table",
-   "label": "Guest",
-   "options": "Guest"
   },
   {
    "fieldname": "description",
@@ -114,18 +114,79 @@
    "fieldname": "existing_meetings",
    "fieldtype": "Table",
    "label": "Existing Meetings",
-   "options": "Existing Meetings",
-   "read_only": 1
+   "options": "Existing Meetings"
   },
   {
    "fieldname": "section_break_bakup",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "guests",
+   "fieldtype": "Table",
+   "label": "Guest",
+   "options": "Guest"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "saturday",
+   "fieldtype": "Check",
+   "label": "Saturday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "sunday",
+   "fieldtype": "Check",
+   "label": "Sunday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "monday",
+   "fieldtype": "Check",
+   "label": "Monday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "tuesday",
+   "fieldtype": "Check",
+   "label": "Tuesday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "wednesday",
+   "fieldtype": "Check",
+   "label": "Wednesday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "thursday",
+   "fieldtype": "Check",
+   "label": "Thursday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_on ==\"Weekly\"",
+   "fieldname": "friday",
+   "fieldtype": "Check",
+   "label": "Friday"
+  },
+  {
+   "depends_on": "eval:doc.recursion===1",
+   "fieldname": "repeat_on",
+   "fieldtype": "Select",
+   "label": "Repeat On",
+   "options": "\nWeekly\nMonthly"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-15 12:03:41.305192",
+ "modified": "2024-01-16 17:50:19.300901",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting Room Booking",
