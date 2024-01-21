@@ -2,15 +2,98 @@
 # For license information, please see license.txt
 
 import frappe
+import uuid
+import pytz
+from ics import Calendar, Event
 import datetime
 from frappe.model.document import Document
 
 class MeetingRoomBooking(Document):
     def on_cancel(self):
         self.cancel_meeting()
+    def before_save(self):
+        # self.check()
+        self.before_check_meeting() 
+        
     def before_submit(self):
         self.create_meeting()
     #    need to stop here
+    def before_check_meeting(self):
+        all_date=self.get_dates_between()
+        days_name=self.get_day()
+        if self.repeat_on =="Weekly":
+            days_name=self.get_day()
+            all_date=self.filter_dates_by_day_type(all_date,days_name,self.repeat_on.lower())
+        if self.repeat_on=='Monthly':
+            all_date=self.check_and_push_array(all_date)  
+        for date in all_date:
+            self.check_meeting_time(date)     
+
+    def ics_file_sender(self):
+        
+        all_date=self.get_dates_between()
+        days_name=self.get_day()
+        if self.repeat_on =="Weekly":
+            days_name=self.get_day()
+            all_date=self.filter_dates_by_day_type(all_date,days_name,self.repeat_on.lower())
+        if self.repeat_on=='Monthly':
+            all_date=self.check_and_push_array(all_date) 
+        # ics_string=self.generate_ics(all_date)    
+        cal=Calendar()
+        cal.version="2.0"
+        cal.method="REQUEST"
+        # cal["VERSION"]="2.0"
+        # cal["PRODID"]="-//ical.marudot.com//iCal Event Maker"
+        # cal["METHOD"]="REQUEST"
+        # cal.add('dtstart', (datetime.datetime.strptime(f"{all_date[0]} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
+        for date in all_date: 
+           
+            timezone = pytz.timezone('Asia/Dhaka')  
+            event = Event()  
+            # event.add('summary', 'Python meeting about calendaring')
+            # event.add('dtstart', (datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
+            # event.add('dtend', (datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S")))
+            # event.add('dtstamp', datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
+            # event['uid'] = f"{str(uuid.uuid4())}@ical.marudot.com"
+                     
+            event.name= self.title
+            event.begin= timezone.localize(datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S"))
+            event.end= timezone.localize(datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S"))
+            event.created=timezone.localize(datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
+            
+            # event.last_modified=datetime.datetime.now()
+            cal.events.add(event)
+        attachment_name = f"{self.name}.ics"
+        # ics_string = cal.to_ical().decode("utf-8")  
+        ics_string=str(cal)    
+        file_doc = frappe.get_doc({
+            "doctype": "File",
+            "file_name": attachment_name,
+            "attached_to_doctype": self.doctype,
+            "attached_to_name": self.name,           
+            "content": ics_string,
+            "is_private": 0,
+            "content_type": "text/calendar"
+            # Set to 1 if you want the attachment to be private
+        }).insert()
+        # Attach the ICS file
+        
+
+        # path = frappe.get_site_path("File",self.doctype,attachment_name,)
+
+        attachment = {
+            "filename": "invite.ics",
+            "content": ics_string,
+            "type": "text/calendar",
+        }
+        # frappe.sendmail(
+        #     recipients=["sohanurl653@gmail.com"],
+        #     subject="meeting",
+        #     message="meeting",
+        #     attachments=attachment,
+        # )
+                
+                        
     def create_meeting(self):
         all_date=self.get_dates_between()
         days_name=self.get_day()
@@ -36,6 +119,7 @@ class MeetingRoomBooking(Document):
                 "duration":self.duration,
                 "start_datetime":start_datetime,
                 "end_datetime":end_datetime,
+                "booking_id":self.name
             }).insert()
             
     def cancel_meeting(self):
@@ -90,13 +174,14 @@ class MeetingRoomBooking(Document):
                 frappe.msgprint(f"Error processing time slot: {existing_slot}. Error: {str(e)}")
 
         return True
+    
     def get_dates_between(self):
-        recursion=self.recursion
+        is_repeat=self.repeat_this_meeting
         start_date = datetime.datetime.strptime(str(self.start_date), "%Y-%m-%d")
-        if recursion==0:
+        if is_repeat=="No":
             end_date=start_date
         else:end_date = datetime.datetime.strptime(str(self.end_date), "%Y-%m-%d")
-        if recursion==1:
+        if is_repeat=="Yes":
             if start_date> end_date:
                 return   frappe.msgprint(f"start date should not bigger than end date")
         date_list = []
@@ -121,6 +206,7 @@ class MeetingRoomBooking(Document):
         if not result_dates:
             frappe.throw("No dates found for the selected criteria. May be you not selected days or selected wrong day")        
         return result_dates
+    
     def get_day(self):
         days=[]
         day_attributes = {
@@ -145,5 +231,68 @@ class MeetingRoomBooking(Document):
                 result_array.append(date_str)
 
         return result_array
+    def send_ics_file_by_mail(self):
+        print()
+    def generate_ics(self,dates):
+        timezone = pytz.timezone('Asia/Dhaka')  
+        start_date=timezone.localize(datetime.datetime.strptime(f"{dates[0]} {self.start_time}", "%Y-%m-%d %H:%M:%S"))
+        ics_content = """BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ics.py - http://git.io/lLljaA
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Asia/Dhaka
+BEGIN:STANDARD
+TZNAME:+06
+TZOFFSETFROM:+0600
+TZOFFSETTO:+0600
+DTSTART:{f"{}"}
+UID:{f"{event_uuid}@gdyuwdg.org"}
+END:STANDARD
+END:VTIMEZONE
+"""
+
+        for date in dates:
+            timezone = pytz.timezone('Asia/Dhaka')  
+            dtstamp = datetime.datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+            dtstart = timezone.localize(datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S"))
+            dtend = timezone.localize(datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S"))
+
+            # Generate a UUID for the event
+            event_uuid = str(uuid.uuid4())
+
+            ics_content += f"""BEGIN:VEVENT
+DTSTAMP:{dtstamp}
+DTEND:{dtend}
+DTSTART:{dtstart}
+SUMMARY:{self.title}
+UID:{f"{event_uuid}@gdyuwdg.org"}
+END:VEVENT
+"""
+
+        ics_content += "END:VCALENDAR\n"
+        return ics_content    
                 
 
+@frappe.whitelist()
+def get_events(start, end, user=None, for_reminder=False, filters=None):
+    meetings=frappe.db.sql(
+        """
+        select tm.booking_id as name,tm.title,tm.start_datetime,tm.end_datetime,tm.meeting_date from `tabMeeting` as tm
+        WHERE (
+				(
+					(date(tm.meeting_date) BETWEEN date(%(start)s) AND date(%(end)s))))
+        """,
+        
+        	{
+			"start": start,
+			"end": end,
+			"user": user,
+		},
+		as_dict=1,
+    )
+    existing_time_slots = frappe.db.get_list("Meeting",
+            fields=['*'],
+        )
+    return meetings
+    

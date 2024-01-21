@@ -35,6 +35,7 @@ app_license = "MIT"
 #     }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+# calendars = ["Meetinng Room Booking"]
 
 # Home Pages
 # ----------

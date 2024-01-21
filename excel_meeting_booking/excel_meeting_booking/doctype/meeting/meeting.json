@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:MEETING-{#####}",
  "creation": "2024-01-03 17:03:19.619602",
  "default_view": "List",
  "doctype": "DocType",
@@ -8,39 +9,45 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "excel_branch",
   "meeting_room",
   "meeting_date",
   "excel_start_time",
   "duration",
-  "excel_branch",
   "excel_end_time",
   "guest",
   "description",
   "excel_floor",
   "excel_building",
   "start_datetime",
-  "end_datetime"
+  "end_datetime",
+  "booking_id"
  ],
  "fields": [
   {
    "fieldname": "title",
    "fieldtype": "Data",
-   "label": "Title"
+   "in_list_view": 1,
+   "label": "Meeting Title"
   },
   {
    "fieldname": "meeting_room",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Meeting Room",
    "options": "Excel Meeting Room"
   },
   {
    "fieldname": "meeting_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Meeting Date"
   },
   {
    "fieldname": "duration",
    "fieldtype": "Duration",
+   "in_list_view": 1,
    "label": "Duration"
   },
   {
@@ -57,11 +64,13 @@
   {
    "fieldname": "excel_start_time",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Start Time"
   },
   {
    "fieldname": "excel_end_time",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "End Time"
   },
   {
@@ -73,13 +82,13 @@
    "fieldname": "excel_floor",
    "fieldtype": "Data",
    "hidden": 1,
-   "label": "Excel Floor"
+   "label": "Floor"
   },
   {
    "fieldname": "excel_building",
    "fieldtype": "Data",
    "hidden": 1,
-   "label": "Excel Building"
+   "label": "Building"
   },
   {
    "fieldname": "start_datetime",
@@ -92,15 +101,22 @@
    "fieldtype": "Datetime",
    "hidden": 1,
    "label": "End Datetime"
+  },
+  {
+   "fieldname": "booking_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Booking ID"
   }
  ],
  "icon": "fa fa-calendar",
  "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2024-01-16 18:32:49.307367",
+ "modified": "2024-01-17 17:01:34.786167",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -116,5 +132,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "title"
 }
