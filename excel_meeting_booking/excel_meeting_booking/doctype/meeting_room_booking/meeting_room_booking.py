@@ -4,7 +4,7 @@
 import frappe
 import uuid
 import pytz
-from ics import Calendar, Event
+from icalendar import Calendar, Event
 import datetime
 from frappe.model.document import Document
 
@@ -13,6 +13,7 @@ class MeetingRoomBooking(Document):
         self.cancel_meeting()
     def before_save(self):
         # self.check()
+        self.ics_file_sender()
         self.before_check_meeting() 
         
     def before_submit(self):
@@ -42,30 +43,30 @@ class MeetingRoomBooking(Document):
         cal=Calendar()
         cal.version="2.0"
         cal.method="REQUEST"
-        # cal["VERSION"]="2.0"
-        # cal["PRODID"]="-//ical.marudot.com//iCal Event Maker"
-        # cal["METHOD"]="REQUEST"
-        # cal.add('dtstart', (datetime.datetime.strptime(f"{all_date[0]} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
+        cal["VERSION"]="2.0"
+        cal["PRODID"]="-//ical.marudot.com//iCal Event Maker"
+        cal["METHOD"]="REQUEST"
+        cal.add('dtstart', (datetime.datetime.strptime(f"{all_date[0]} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
         for date in all_date: 
            
             timezone = pytz.timezone('Asia/Dhaka')  
             event = Event()  
-            # event.add('summary', 'Python meeting about calendaring')
-            # event.add('dtstart', (datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
-            # event.add('dtend', (datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S")))
-            # event.add('dtstamp', datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
-            # event['uid'] = f"{str(uuid.uuid4())}@ical.marudot.com"
+            event.add('summary', 'Python meeting about calendaring')
+            event.add('dtstart', (datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
+            event.add('dtend', (datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S")))
+            event.add('dtstamp', datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
+            event['uid'] = f"{str(uuid.uuid4())}@ical.marudot.com"
                      
-            event.name= self.title
-            event.begin= timezone.localize(datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S"))
-            event.end= timezone.localize(datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S"))
-            event.created=timezone.localize(datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
+            # event.name= self.title
+            # event.begin= timezone.localize(datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S"))
+            # event.end= timezone.localize(datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S"))
+            # event.created=timezone.localize(datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
             
             # event.last_modified=datetime.datetime.now()
-            cal.events.add(event)
+            cal.add_component(event)
         attachment_name = f"{self.name}.ics"
-        # ics_string = cal.to_ical().decode("utf-8")  
-        ics_string=str(cal)    
+        ics_string = cal.to_ical().decode("utf-8")  
+          
         file_doc = frappe.get_doc({
             "doctype": "File",
             "file_name": attachment_name,
