@@ -45,8 +45,7 @@ class MeetingRoomBooking(Document):
         cal.method="REQUEST"
         cal["VERSION"]="2.0"
         cal["PRODID"]="-//ical.marudot.com//iCal Event Maker"
-        cal["METHOD"]="REQUEST"
-        cal.add('dtstart', (datetime.datetime.strptime(f"{all_date[0]} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
+      
         for date in all_date: 
            
             timezone = pytz.timezone('Asia/Dhaka')  
