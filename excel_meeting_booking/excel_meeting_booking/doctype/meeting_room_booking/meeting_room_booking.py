@@ -13,10 +13,12 @@ class MeetingRoomBooking(Document):
         self.cancel_meeting()
     def before_save(self):
         # self.check()
-        self.ics_file_sender()
+        self.generate_mail()
+       
         self.before_check_meeting() 
         
-    def before_submit(self):
+    def on_submit(self):
+        self.ics_file_sender()
         self.create_meeting()
     #    need to stop here
     def before_check_meeting(self):
@@ -31,6 +33,7 @@ class MeetingRoomBooking(Document):
             self.check_meeting_time(date)     
 
     def ics_file_sender(self):
+        get_guests_mail=self.generate_mail()
         
         all_date=self.get_dates_between()
         days_name=self.get_day()
@@ -41,16 +44,19 @@ class MeetingRoomBooking(Document):
             all_date=self.check_and_push_array(all_date) 
         # ics_string=self.generate_ics(all_date)    
         cal=Calendar()
+        
+        
         cal.version="2.0"
         cal.method="REQUEST"
         cal["VERSION"]="2.0"
         cal["PRODID"]="-//ical.marudot.com//iCal Event Maker"
       
         for date in all_date: 
-           
+            organizer = f"MAILTO:{self.owner}"
             timezone = pytz.timezone('Asia/Dhaka')  
             event = Event()  
-            event.add('summary', 'Python meeting about calendaring')
+            event.add('summary', self.title)
+            event['organizer']=organizer
             event.add('dtstart', (datetime.datetime.strptime(f"{date} {self.start_time}", "%Y-%m-%d %H:%M:%S")))
             event.add('dtend', (datetime.datetime.strptime(f"{date} {self.end_time}", "%Y-%m-%d %H:%M:%S")))
             event.add('dtstamp', datetime.datetime.strptime(f"{date}", "%Y-%m-%d"))
@@ -81,17 +87,19 @@ class MeetingRoomBooking(Document):
 
         # path = frappe.get_site_path("File",self.doctype,attachment_name,)
 
-        attachment = {
-            "filename": "invite.ics",
-            "content": ics_string,
-            "type": "text/calendar",
-        }
-        # frappe.sendmail(
-        #     recipients=["sohanurl653@gmail.com"],
-        #     subject="meeting",
-        #     message="meeting",
-        #     attachments=attachment,
-        # )
+      
+        frappe.sendmail(
+            recipients=get_guests_mail,
+            subject=f"Invitation: {self.title}",
+            template='meeting_template',
+            args=dict(
+               title=self.title,
+               meeting_room=self.meeting_room,
+               start_date=self.start_date,
+               start_time=self.start_time
+            ),
+            attachments=[{"file_url": file_doc.file_url}],
+        )
                 
                         
     def create_meeting(self):
@@ -272,6 +280,12 @@ END:VEVENT
 
         ics_content += "END:VCALENDAR\n"
         return ics_content    
+    def generate_mail(self):
+        total_email=[]
+        guests=self.guests
+        for guest in guests:
+            total_email.append(guest.email)
+        return total_email   
                 
 
 @frappe.whitelist()
