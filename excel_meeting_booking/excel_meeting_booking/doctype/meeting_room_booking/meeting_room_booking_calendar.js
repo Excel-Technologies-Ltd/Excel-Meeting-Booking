@@ -3,7 +3,6 @@ frappe.views.calendar['Meeting Room Booking'] = {
         start: 'start_datetime',
         end: 'end_datetime',
         id: 'booking_id',
-        allDay: 'all_day',
         title: 'title',
 
     },

@@ -127,7 +127,9 @@ class MeetingRoomBooking(Document):
                 "duration":self.duration,
                 "start_datetime":start_datetime,
                 "end_datetime":end_datetime,
-                "booking_id":self.name
+                "booking_id":self.name,
+                "status":'Open'
+                
             }).insert()
             
     def cancel_meeting(self):
@@ -295,7 +297,7 @@ def get_events(start, end, user=None, for_reminder=False, filters=None):
         select tm.booking_id as name,tm.title,tm.start_datetime,tm.end_datetime,tm.meeting_date from `tabMeeting` as tm
         WHERE (
 				(
-					(date(tm.meeting_date) BETWEEN date(%(start)s) AND date(%(end)s))))
+					(date(tm.meeting_date) BETWEEN date(%(start)s) AND date(%(end)s) AND tm.status='Open')))
         """,
         
         	{

@@ -21,7 +21,8 @@
   "excel_building",
   "start_datetime",
   "end_datetime",
-  "booking_id"
+  "booking_id",
+  "status"
  ],
  "fields": [
   {
@@ -107,12 +108,19 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Booking ID"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Closed\nOpen",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-calendar",
  "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2024-01-17 17:01:34.786167",
+ "modified": "2024-02-01 12:28:48.115642",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting",

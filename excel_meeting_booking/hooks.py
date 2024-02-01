@@ -132,23 +132,11 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"excel_meeting_booking.tasks.all"
-#	],
-#	"daily": [
-#		"excel_meeting_booking.tasks.daily"
-#	],
-#	"hourly": [
-#		"excel_meeting_booking.tasks.hourly"
-#	],
-#	"weekly": [
-#		"excel_meeting_booking.tasks.weekly"
-#	],
-#	"monthly": [
-#		"excel_meeting_booking.tasks.monthly"
-#	],
-# }
+scheduler_events = {
+	"all": [
+		"excel_meeting_booking.task.all"
+	],
+}
 
 # Testing
 # -------

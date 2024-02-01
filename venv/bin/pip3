@@ -1,4 +1,4 @@
-#!/workspace/development/meeting-bench/apps/excel_meeting_booking/venv/bin/python3
+#!/workspace/development/frappe-bench/apps/excel_meeting_booking/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
