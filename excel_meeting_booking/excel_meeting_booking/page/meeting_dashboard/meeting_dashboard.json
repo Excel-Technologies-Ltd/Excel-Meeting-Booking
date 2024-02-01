@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2024-01-03 18:24:18.460465",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2024-01-03 18:24:18.460465",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "meeting-dashboard",
+ "owner": "Administrator",
+ "page_name": "meeting-dashboard",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Meeting List"
+}

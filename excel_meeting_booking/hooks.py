@@ -30,9 +30,12 @@ app_license = "MIT"
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+# doctype_list_js = {
+#     "Meeting List" : "public/js/meeting-list.js"
+#     }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+# calendars = ["Meetinng Room Booking"]
 
 # Home Pages
 # ----------
@@ -129,27 +132,14 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"excel_meeting_booking.tasks.all"
-#	],
-#	"daily": [
-#		"excel_meeting_booking.tasks.daily"
-#	],
-#	"hourly": [
-#		"excel_meeting_booking.tasks.hourly"
-#	],
-#	"weekly": [
-#		"excel_meeting_booking.tasks.weekly"
-#	],
-#	"monthly": [
-#		"excel_meeting_booking.tasks.monthly"
-#	],
-# }
+scheduler_events = {
+	"all": [
+		"excel_meeting_booking.task.all"
+	],
+}
 
 # Testing
 # -------
-
 # before_tests = "excel_meeting_booking.install.before_tests"
 
 # Overriding Methods

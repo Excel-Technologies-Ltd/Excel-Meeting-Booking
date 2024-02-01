@@ -1,0 +1,145 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MEETING-{#####}",
+ "creation": "2024-01-03 17:03:19.619602",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "excel_branch",
+  "meeting_room",
+  "meeting_date",
+  "excel_start_time",
+  "duration",
+  "excel_end_time",
+  "guest",
+  "description",
+  "excel_floor",
+  "excel_building",
+  "start_datetime",
+  "end_datetime",
+  "booking_id",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Meeting Title"
+  },
+  {
+   "fieldname": "meeting_room",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Meeting Room",
+   "options": "Excel Meeting Room"
+  },
+  {
+   "fieldname": "meeting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Meeting Date"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Duration",
+   "in_list_view": 1,
+   "label": "Duration"
+  },
+  {
+   "fieldname": "guest",
+   "fieldtype": "Table",
+   "label": "Guest",
+   "options": "Guest"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "excel_start_time",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Start Time"
+  },
+  {
+   "fieldname": "excel_end_time",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "End Time"
+  },
+  {
+   "fieldname": "excel_branch",
+   "fieldtype": "Data",
+   "label": "Branch"
+  },
+  {
+   "fieldname": "excel_floor",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Floor"
+  },
+  {
+   "fieldname": "excel_building",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Building"
+  },
+  {
+   "fieldname": "start_datetime",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Start Datetime"
+  },
+  {
+   "fieldname": "end_datetime",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "End Datetime"
+  },
+  {
+   "fieldname": "booking_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Booking ID"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Closed\nOpen",
+   "read_only": 1
+  }
+ ],
+ "icon": "fa fa-calendar",
+ "is_calendar_and_gantt": 1,
+ "links": [],
+ "modified": "2024-02-01 12:28:48.115642",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Meeting",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title"
+}

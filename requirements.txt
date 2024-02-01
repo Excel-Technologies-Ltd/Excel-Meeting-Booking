@@ -1,1 +1,4 @@
 # frappe -- https://github.com/frappe/frappe is installed via 'bench init'
+ics==0.7.2
+icalendar== 5.0.11
+pytz== 2023.4

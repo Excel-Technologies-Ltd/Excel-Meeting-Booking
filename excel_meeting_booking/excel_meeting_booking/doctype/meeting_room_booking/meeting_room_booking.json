@@ -1,0 +1,316 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:BOOKING-{#####}",
+ "creation": "2024-01-01 00:47:44.604499",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_cdybm",
+  "title",
+  "excel_branch",
+  "meeting_room",
+  "column_break_jsla7",
+  "existing_meetings",
+  "section_break_fpbef",
+  "start_time",
+  "column_break_7ukyw",
+  "duration",
+  "column_break_spstu",
+  "end_time",
+  "section_break_i5yuc",
+  "start_date",
+  "column_break_ecuvz",
+  "recursion",
+  "repeat_this_meeting",
+  "column_break_zhsyl",
+  "repeat_on",
+  "column_break_odrdj",
+  "end_date",
+  "section_break_zhvdb",
+  "saturday",
+  "column_break_unqct",
+  "sunday",
+  "column_break_z7jsc",
+  "monday",
+  "column_break_hn1gx",
+  "tuesday",
+  "column_break_wm9u0",
+  "wednesday",
+  "column_break_mnxeg",
+  "thursday",
+  "column_break_bhbt3",
+  "friday",
+  "section_break_tcjyu",
+  "guests",
+  "description",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "meeting_room",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Meeting Room ",
+   "options": "Excel Meeting Room",
+   "reqd": 1
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Time",
+   "label": "End Time",
+   "read_only": 1,
+   "read_only_depends_on": "eval:doc.duration",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Meeting Room Booking",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Meeting Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "excel_branch",
+   "fieldtype": "Link",
+   "label": "Branch ",
+   "options": "Excel Branch",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\"",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "Repeat Till",
+   "mandatory_depends_on": "eval:doc.repeat_this_meeting===\"Yes\""
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Duration",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Duration ",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Meeting Agenda"
+  },
+  {
+   "default": "0",
+   "fieldname": "recursion",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Recurring?"
+  },
+  {
+   "fieldname": "column_break_spstu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "existing_meetings",
+   "fieldtype": "Table",
+   "label": "Existing Meetings",
+   "options": "Existing Meetings"
+  },
+  {
+   "description": "Select the employees or add external guests name and email",
+   "fieldname": "guests",
+   "fieldtype": "Table",
+   "label": "Guests",
+   "options": "Guest"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "saturday",
+   "fieldtype": "Check",
+   "label": "Saturday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "sunday",
+   "fieldtype": "Check",
+   "label": "Sunday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "monday",
+   "fieldtype": "Check",
+   "label": "Monday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "tuesday",
+   "fieldtype": "Check",
+   "label": "Tuesday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "wednesday",
+   "fieldtype": "Check",
+   "label": "Wednesday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "thursday",
+   "fieldtype": "Check",
+   "label": "Thursday"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\" && doc.repeat_on ==\"Weekly\"",
+   "fieldname": "friday",
+   "fieldtype": "Check",
+   "label": "Friday"
+  },
+  {
+   "depends_on": "eval:doc.repeat_this_meeting===\"Yes\"",
+   "fieldname": "repeat_on",
+   "fieldtype": "Select",
+   "label": "Repeat On",
+   "options": "Daily\nWeekly\nMonthly"
+  },
+  {
+   "fieldname": "column_break_7ukyw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_odrdj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_zhsyl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_tcjyu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ecuvz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_z7jsc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_wm9u0",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "repeat_this_meeting",
+   "fieldtype": "Select",
+   "label": "Repeat this Meeting",
+   "options": "No\nYes"
+  },
+  {
+   "fieldname": "column_break_jsla7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_fpbef",
+   "fieldtype": "Section Break",
+   "hide_border": 1
+  },
+  {
+   "fieldname": "section_break_i5yuc",
+   "fieldtype": "Section Break",
+   "hide_border": 1
+  },
+  {
+   "fieldname": "section_break_zhvdb",
+   "fieldtype": "Section Break",
+   "hide_border": 1
+  },
+  {
+   "fieldname": "column_break_unqct",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_hn1gx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mnxeg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_bhbt3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_cdybm",
+   "fieldtype": "Section Break",
+   "hide_border": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_calendar_and_gantt": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-01-31 14:48:29.068826",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Meeting Room Booking",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title"
+}
