@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-07 10:34:55.463077",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "platform_name",
+  "tab_break_dd9cu",
+  "authorization_key"
+ ],
+ "fields": [
+  {
+   "fieldname": "platform_name",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Platform Name",
+   "options": "Microsoft Outlook\nGoogle Callender\nZoho\nZoom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tab_break_dd9cu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "authorization_key",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Authorization Key",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-10-07 10:43:08.740276",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Third Party Meeting Configuration",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
