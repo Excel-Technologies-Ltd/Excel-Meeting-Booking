@@ -134,9 +134,12 @@ app_license = "MIT"
 
 scheduler_events = {
 	"all": [
-		"excel_meeting_booking.task.all"
+		"excel_meeting_booking.task.all",
+        "excel_meeting_booking.create-third-party-meeting.sync_meetings"
 	],
 }
+
+fixtures = ["Print Format", "Custom Field", "Property Setter"]
 
 # Testing
 # -------
