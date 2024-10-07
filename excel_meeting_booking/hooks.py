@@ -139,7 +139,22 @@ scheduler_events = {
 	],
 }
 
-fixtures = ["Print Format", "Custom Field", "Property Setter"]
+
+
+fixtures = [
+    {
+        "dt": "Custom Field",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Meeting-custom_event_id",
+                ],
+            ],
+        ]
+    },
+]
 
 # Testing
 # -------
