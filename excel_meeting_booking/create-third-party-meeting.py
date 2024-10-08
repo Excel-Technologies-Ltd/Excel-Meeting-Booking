@@ -83,9 +83,9 @@ def sync_meetings():
             end_dt_local = convert_to_local_time(end_dt)
 
             # Check if the meeting's end time has passed the current time
-            # if end_dt_local < current_time:
-            #     print(f"Skipping meeting '{title}' as it has already ended.")
-            #     continue  # Skip this meeting if the end time is in the past
+            if end_dt_local < current_time:
+                print(f"Skipping meeting '{title}' as it has already ended.")
+                continue  # Skip this meeting if the end time is in the past
 
             # Format start and end times as HH:MM
             formatted_start_time = start_dt_local.strftime('%H:%M:%S')
