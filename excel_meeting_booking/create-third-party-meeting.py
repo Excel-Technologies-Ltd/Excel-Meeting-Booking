@@ -124,7 +124,10 @@ def sync_meetings():
                     "doctype": "Meeting",
                     "name": "new-meeting",
                     "title": title,
-                    "meeting_room": "Board Room - 1",  # Customize as needed
+                    "meeting_room": "Board Room - 1",
+                    "start_datetime": f"{start_dt_local.date()} {formatted_start_time}",
+                    "end_datetime": f"{start_dt_local.date()} {formatted_end_time}",
+                    # Customize as needed
                     "meeting_date": start_dt_local.date(),  # Meeting date in local time zone
                     "excel_start_time": formatted_start_time,
                     "excel_end_time": formatted_end_time,
@@ -136,9 +139,10 @@ def sync_meetings():
 
                 # Create the meeting in the Meeting doctype
                 try:
-                    new_meeting = frappe.get_doc(meeting_data)
-                    new_meeting.insert()
-                    frappe.db.commit()
+                    print(meeting_data)
+                    # new_meeting = frappe.get_doc(meeting_data)
+                    # new_meeting.insert()
+                    # frappe.db.commit()
                     print(f"Meeting '{title}' created successfully in ERPNext with duration {formatted_duration}.")
                 except Exception as e:
                     print(f"Error creating meeting '{title}': {e}")
