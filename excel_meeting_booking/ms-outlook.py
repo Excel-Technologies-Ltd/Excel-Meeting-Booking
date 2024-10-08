@@ -3,6 +3,14 @@ from datetime import datetime
 import pytz
 import requests
 import json
+from msal import ConfidentialClientApplication
+
+# Define the constants required for OAuth2
+CLIENT_ID = "765a9a1f-0239-4afa-ae6b-3dd4bc888b0e"  # Replace with your application client ID
+CLIENT_SECRET = "Sat8Q~wCKhmqMwTGIxOGy5AjACkAWHxPCyNx1aI3"  # Replace with your client secret
+AUTHORITY = "https://login.microsoftonline.com/0e9cff28-4f38-4a34-acc6-63c695f830a2"  # Replace with your actual tenant ID
+SCOPES = ["https://graph.microsoft.com/.default"]  # Define the required scopes
+USER_EMAIL = "shaidazmin@outlook.com"  # Replace with the actual user email or user ID
 
 # Set your local time zone (for example, Asia/Dhaka)
 LOCAL_TIME_ZONE = 'Asia/Dhaka'
@@ -41,22 +49,40 @@ def format_duration(minutes):
     
     return " ".join(formatted_duration)
 
-# Function to fetch meetings from Microsoft Calendar and create them in ERPNext
+# Function to authenticate using ConfidentialClientApplication
+def authenticate():
+    # Initialize ConfidentialClientApplication
+    client = ConfidentialClientApplication(
+        client_id=CLIENT_ID,
+        authority=AUTHORITY,
+        client_credential=CLIENT_SECRET
+    )
+
+    # Acquire a token for the app (client credentials flow)
+    result = client.acquire_token_for_client(scopes=SCOPES)
+
+    # Check if the authentication was successful
+    if "access_token" in result:
+        print("Authentication successful!")
+        return result["access_token"]
+    else:
+        raise Exception(f"Authentication failed: {result}")
+
+# Function to fetch meetings from Microsoft Calendar for a specific user and create them in ERPNext
 def sync_meetings():
-    # Fetch third-party meeting configuration from ERPNext
-    config = frappe.get_doc('Third Party Meeting Configuration')
-    access_token = config.authorization_key  # Ensure this token has the necessary permissions
+    # Get the access token dynamically using the authenticate function
+    access_token = authenticate()
 
-    # Microsoft Graph API endpoint to get calendar events
-    endpoint = 'https://graph.microsoft.com/v1.0/me/events?$select=id,subject,body,bodyPreview,organizer,attendees,start,end,location'
+    # Microsoft Graph API endpoint to get calendar events for a specific user
+    endpoint = f'https://graph.microsoft.com/me/events'
 
-    # Set up headers with access token
+    # Set up headers with the dynamically fetched access token
     headers = {
         'Authorization': f'Bearer {access_token}',
         'Content-Type': 'application/json'
     }
 
-    # Make the API request to get calendar events
+    # Make the API request to get calendar events for the user
     response = requests.get(endpoint, headers=headers)
 
     if response.status_code == 200:
@@ -103,6 +129,9 @@ def sync_meetings():
                         "docstatus": 0,  # Draft status
                         "doctype": "Guest",
                         "name": f"new-guest-{idx}",
+                        "__islocal": 1,
+                        "__unsaved": 1,
+                        "owner": "azmin@excelbd.com",  # Adjust owner as needed
                         "parent": "new-meeting",
                         "parentfield": "guest",
                         "parenttype": "Meeting",
@@ -118,6 +147,10 @@ def sync_meetings():
                     "docstatus": 0,  # Draft status
                     "doctype": "Meeting",
                     "name": "new-meeting",
+                    "__islocal": 1,
+                    "__unsaved": 1,
+                    "owner": "azmin@excelbd.com",  # Adjust owner as needed
+                    "status": "Closed",  # Set status if needed
                     "title": title,
                     "meeting_room": "Board Room - 1",  # Customize as needed
                     "meeting_date": start_dt_local.date(),  # Meeting date in local time zone
