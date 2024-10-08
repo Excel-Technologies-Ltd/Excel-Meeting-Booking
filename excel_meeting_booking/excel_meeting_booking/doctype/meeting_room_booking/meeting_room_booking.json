@@ -65,6 +65,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "end_time",
    "fieldtype": "Time",
    "label": "End Time",
@@ -114,6 +115,7 @@
    "mandatory_depends_on": "eval:doc.repeat_this_meeting===\"Yes\""
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "duration",
    "fieldtype": "Duration",
    "hide_days": 1,
@@ -285,7 +287,7 @@
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-31 14:48:29.068826",
+ "modified": "2024-10-07 14:33:54.759904",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting Room Booking",

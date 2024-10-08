@@ -20,6 +20,9 @@ class MeetingRoomBooking(Document):
     def on_submit(self):
         self.ics_file_sender()
         self.create_meeting()
+
+    def on_update_after_submit(self):
+        self.update_meeting()
     #    need to stop here
     def before_check_meeting(self):
         all_date=self.get_dates_between()
@@ -96,7 +99,9 @@ class MeetingRoomBooking(Document):
                title=self.title,
                meeting_room=self.meeting_room,
                start_date=self.start_date,
-               start_time=self.start_time
+               start_time=self.start_time,
+               description= self.description,
+               branch=self.excel_branch
             ),
             attachments=[{"file_url": file_doc.file_url}],
         )
@@ -130,8 +135,44 @@ class MeetingRoomBooking(Document):
                 "booking_id":self.name,
                 "status":'Open'
                 
-            }).insert()
-            
+            })
+            new_data.flags.ignore_permissions = True
+            new_data.insert()
+
+    def update_meeting(self):
+        # Get all the dates for the meeting (handling repeating meetings)
+        all_date = self.get_dates_between()
+        days_name = self.get_day()
+
+        if self.repeat_on == "Weekly":
+            all_date = self.filter_dates_by_day_type(all_date, days_name, self.repeat_on.lower())
+        if self.repeat_on == 'Monthly':
+            all_date = self.check_and_push_array(all_date)
+
+        # Loop through each date and update the corresponding meeting entry
+        for date in all_date:
+            # Fetch existing meeting by booking ID and date
+            existing_meeting_id = frappe.db.get_value("Meeting", filters={
+                "booking_id": self.name,
+                "meeting_date": date
+            }, fieldname="name")
+
+            if existing_meeting_id:
+                # Update the meeting details
+                meeting_doc = frappe.get_doc("Meeting", existing_meeting_id)
+                meeting_doc.excel_start_time = self.start_time
+                meeting_doc.excel_end_time = self.end_time
+                meeting_doc.duration = self.duration
+                meeting_doc.start_datetime = f"{date} {self.start_time}"
+                meeting_doc.end_datetime = f"{date} {self.end_time}"
+
+                # Save the changes
+                meeting_doc.flags.ignore_permissions = True
+                meeting_doc.save()
+                frappe.db.commit()
+            else:
+                # If no meeting exists for that date, you may want to create it
+                self.create_meeting()          
     def cancel_meeting(self):
         all_date=self.get_dates_between()
         if self.repeat_on =="Weekly":
@@ -311,4 +352,3 @@ def get_events(start, end, user=None, for_reminder=False, filters=None):
             fields=['*'],
         )
     return meetings
-    

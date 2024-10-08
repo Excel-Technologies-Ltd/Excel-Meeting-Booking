@@ -1,17 +1,20 @@
 <div>
     <div class="gray-container">
-    <div>
-        Dear Concern, <br> <br>
+        <div>
+            Dear Concern, <br><br>
 
-        You have been invited to join {{title }} in {{meeting_room}} at {{start_date}} {{start_time}}. <br><br>
-        
-        Your timely presence is highly appreciated. <br><br>
-        
-        Thank You.
+            You have been invited to join {{ title }} in {{ meeting_room }}, {{ branch }} at {{ start_date }} {{ start_time }}.<br><br>
+
+            {% if description %}
+                Meeting Agenda:<br>
+                {{ description }}<br><br>
+            {% endif %}
+
+            Your timely presence is highly appreciated.<br><br>
+
+            Thank You.
         </div>
-    <div style="margin-top: 15px;">
-
+        <div style="margin-top: 15px;">
+        </div>
     </div>
-    </div>
-
-   
+</div>
