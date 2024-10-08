@@ -124,7 +124,7 @@ def sync_meetings():
                     "__islocal": 1,
                     "__unsaved": 1,
                     "owner": "azmin@excelbd.com",  # Adjust owner as needed
-                    "status": "Closed",  # Set status if needed
+                    "status": "Open",  # Set status if needed
                     "title": title,
                     "meeting_room": "Board Room - 1",  # Customize as needed
                     "meeting_date": start_dt_local.date(),  # Meeting date in local time zone
