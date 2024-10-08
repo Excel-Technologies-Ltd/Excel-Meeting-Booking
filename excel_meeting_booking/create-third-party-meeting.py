@@ -140,9 +140,9 @@ def sync_meetings():
                 # Create the meeting in the Meeting doctype
                 try:
                     print(meeting_data)
-                    # new_meeting = frappe.get_doc(meeting_data)
-                    # new_meeting.insert()
-                    # frappe.db.commit()
+                    new_meeting = frappe.get_doc(meeting_data)
+                    new_meeting.insert()
+                    frappe.db.commit()
                     print(f"Meeting '{title}' created successfully in ERPNext with duration {formatted_duration}.")
                 except Exception as e:
                     print(f"Error creating meeting '{title}': {e}")
