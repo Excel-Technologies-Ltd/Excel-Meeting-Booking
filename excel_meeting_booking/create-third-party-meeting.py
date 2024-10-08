@@ -1,8 +1,7 @@
-import frappe
 from datetime import datetime
+import frappe
 import pytz
 import requests
-import json
 
 # Set your local time zone (for example, Asia/Dhaka)
 LOCAL_TIME_ZONE = 'Asia/Dhaka'
@@ -48,7 +47,7 @@ def sync_meetings():
     access_token = config.authorization_key  # Ensure this token has the necessary permissions
 
     # Microsoft Graph API endpoint to get calendar events
-    endpoint = 'https://graph.microsoft.com/v1.0/me/events?$select=id,subject,body,bodyPreview,organizer,attendees,start,end,location'
+    endpoint = 'https://graph.microsoft.com/v1.0/me/events?$select=id,subject,start,end,attendees'
 
     # Set up headers with access token
     headers = {
@@ -62,6 +61,9 @@ def sync_meetings():
     if response.status_code == 200:
         events_data = response.json()
         meetings = events_data.get('value', [])
+
+        # Get the current local time
+        current_time = datetime.now(pytz.timezone(LOCAL_TIME_ZONE))
 
         # Loop through each meeting and create it in ERPNext
         for meeting in meetings:
@@ -80,17 +82,20 @@ def sync_meetings():
             start_dt_local = convert_to_local_time(start_dt)
             end_dt_local = convert_to_local_time(end_dt)
 
+            # Check if the meeting's end time has passed the current time
+            # if end_dt_local < current_time:
+            #     print(f"Skipping meeting '{title}' as it has already ended.")
+            #     continue  # Skip this meeting if the end time is in the past
+
             # Format start and end times as HH:MM
-            formatted_start_time = start_dt_local.strftime('%H:%M')
-            formatted_end_time = end_dt_local.strftime('%H:%M')
+            formatted_start_time = start_dt_local.strftime('%H:%M:%S')
+            formatted_end_time = end_dt_local.strftime('%H:%M:%S')
 
             # Calculate duration in minutes
-            duration_in_minutes = int((end_dt_local - start_dt_local).total_seconds() / 60)
+            duration_in_minutes = int((end_dt_local - start_dt_local).total_seconds())
 
-            # Convert duration to human-readable format (e.g., 1h 30m, 1d 2h 40m)
+            # Convert duration to human-readable format
             formatted_duration = format_duration(duration_in_minutes)
-
-            print(f"Formatted Duration: {formatted_duration}")
 
             # Check if a meeting with the same Microsoft Calendar event ID already exists
             existing_meeting = frappe.db.exists('Meeting', {'custom_event_id': event_id})
@@ -134,7 +139,7 @@ def sync_meetings():
                     new_meeting = frappe.get_doc(meeting_data)
                     new_meeting.insert()
                     frappe.db.commit()
-                    print(f"Meeting '{title}' created successfully in ERPNext with duration {duration_in_minutes} minutes.")
+                    print(f"Meeting '{title}' created successfully in ERPNext with duration {formatted_duration}.")
                 except Exception as e:
                     print(f"Error creating meeting '{title}': {e}")
             else:
