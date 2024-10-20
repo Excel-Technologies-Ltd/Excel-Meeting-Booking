@@ -110,17 +110,18 @@
    "label": "Booking ID"
   },
   {
+   "default": "Open",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Closed\nOpen",
+   "options": "Open\nClosed",
    "read_only": 1
   }
  ],
  "icon": "fa fa-calendar",
  "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2024-02-01 12:28:48.115642",
+ "modified": "2024-10-08 16:59:37.774616",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting",
