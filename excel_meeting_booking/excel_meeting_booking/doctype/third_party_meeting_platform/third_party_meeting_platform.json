@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-20 15:45:07.151924",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "platform_name",
+  "user_id",
+  "tenant_id",
+  "column_break_yxe6k",
+  "client_id",
+  "client_secret",
+  "upload_credential"
+ ],
+ "fields": [
+  {
+   "fieldname": "platform_name",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Platform Name",
+   "options": "Microsoft\nGoogle\nZoom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "user_id",
+   "fieldtype": "Data",
+   "label": "User ID"
+  },
+  {
+   "fieldname": "tenant_id",
+   "fieldtype": "Data",
+   "label": "Tenant ID"
+  },
+  {
+   "fieldname": "column_break_yxe6k",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "client_id",
+   "fieldtype": "Data",
+   "label": "Client ID"
+  },
+  {
+   "fieldname": "client_secret",
+   "fieldtype": "Data",
+   "label": "Client Secret"
+  },
+  {
+   "fieldname": "upload_credential",
+   "fieldtype": "Attach",
+   "label": "Upload Credential"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-20 16:17:28.617805",
+ "modified_by": "Administrator",
+ "module": "Excel Meeting Booking",
+ "name": "Third Party Meeting Platform",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
