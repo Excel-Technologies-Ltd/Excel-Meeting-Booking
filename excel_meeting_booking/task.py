@@ -3,6 +3,9 @@ from datetime import datetime
 import pytz
 
 
+def printData():
+    print("I'm working")
+
 def all():
     bd_timezone = pytz.timezone('Asia/Dhaka')
     current_time = datetime.now(bd_timezone).strftime("%H:%M:%S")
@@ -15,6 +18,7 @@ def all():
         ['excel_end_time','<',current_time]
         ],
     fields=['*'],)
+    print("Meeting", data)
     print(today)
     print(current_time)
     print(len(data))
@@ -41,3 +45,9 @@ def check():
     for meeting in data:
         frappe.db.set_value('Meeting', meeting.name, 'status', 'Open')
     frappe.db.commit()    
+
+def check_third_party_meeting():
+    config_doc = frappe.get_single('Third Party Meeting Configuration')
+    config_doc.sync_third_party_meetings()
+
+
