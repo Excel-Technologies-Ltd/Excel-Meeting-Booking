@@ -133,10 +133,10 @@ app_license = "MIT"
 # ---------------
 
 scheduler_events = {
-    "all":{
-            "excel_meeting_booking.task.check_third_party_meeting",
-            "excel_meeting_booking.task.all"
-    }
+    "all":[
+        "excel_meeting_booking.task.check_third_party_meeting",
+        "excel_meeting_booking.task.all"
+    ]
 }
 
 
