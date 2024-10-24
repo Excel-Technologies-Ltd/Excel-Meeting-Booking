@@ -22,8 +22,7 @@
   "start_datetime",
   "end_datetime",
   "booking_id",
-  "status",
-  "custom_event_id"
+  "status"
  ],
  "fields": [
   {
@@ -117,17 +116,12 @@
    "label": "Status",
    "options": "Open\nClosed",
    "read_only": 1
-  },
-  {
-   "fieldname": "custom_event_id",
-   "fieldtype": "Small Text",
-   "label": "Event ID"
   }
  ],
  "icon": "fa fa-calendar",
  "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2024-10-24 15:39:20.950172",
+ "modified": "2024-10-24 17:53:27.927142",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting",
