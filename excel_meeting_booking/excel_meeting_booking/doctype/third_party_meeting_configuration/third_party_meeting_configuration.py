@@ -14,14 +14,40 @@ from googleapiclient.discovery import build
 LOCAL_TIME_ZONE = 'Asia/Dhaka'
 
 class ThirdPartyMeetingConfiguration(Document):
-    pass
+    def before_save(self):
+          for meeting_configuration in self.meeting_configuration:
+            if meeting_configuration.platform_name == "Google":
+                if not meeting_configuration.upload_credential:
+                    frappe.throw("Google Service Account credential file is mandatory for Google meeting configuration")
+                elif not meeting_configuration.user_id:
+                    frappe.throw("User Id is mandatory for Google meeting configuration")
+            elif meeting_configuration.platform_name == "Zoom":
+                if not meeting_configuration.user_id:
+                    frappe.throw("Zoom Account ID is mandatory for Zoom meeting configuration")
+                elif not meeting_configuration.client_id:
+                    frappe.throw("Client ID is mandatory for Zoom meeting configuration")
+                elif not meeting_configuration.client_secret:
+                    frappe.throw("Client Secret is mandatory for Zoom meeting configuration")
+            elif meeting_configuration.platform_name == "Microsoft":
+                if not meeting_configuration.user_id:
+                    frappe.throw("User ID is mandatory for Microsoft meeting configuration")
+                elif not meeting_configuration.client_id:
+                    frappe.throw("Client ID is mandatory for Microsoft meeting configuration")
+                elif not meeting_configuration.client_secret:
+                    frappe.throw("Client Secret is mandatory for Microsoft meeting configuration")
+                elif not meeting_configuration.tenant_id:
+                    frappe.throw("Tenant ID is mandatory for Microsoft meeting configuration")
+        
+
+    
 
     def sync_third_party_meetings(self):
         for meeting_configuration in self.meeting_configuration:
             if meeting_configuration.platform_name == "Google":     
                 google_events = self.get_google_events(meeting_configuration)
                 
-                if isinstance(google_events, list):  # Ensure it's a list before extending
+                if isinstance(google_events, list):  
+                    # Ensure it's a list before extending
                     for event in google_events:
                         self.create_google_meeting_booking(event)
                 else:
@@ -267,7 +293,8 @@ class ThirdPartyMeetingConfiguration(Document):
 
         # Retrieve Zoom events using the access token
         zoom_events = self.fetch_zoom_meetings(token)
-        
+
+        print("Zoom Events", frappe.as_json(zoom_events))        
 
         # Process the events if it's a list
         if isinstance(zoom_events, list):
@@ -441,7 +468,7 @@ class ThirdPartyMeetingConfiguration(Document):
                 print('No upcoming events found.')
                 return []
         
-            print("Google Events", frappe.as_json(events))  
+            # print("Google Events", frappe.as_json(events))  
         
             return events
 
