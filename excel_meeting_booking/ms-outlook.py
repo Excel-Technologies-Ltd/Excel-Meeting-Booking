@@ -176,3 +176,25 @@ def sync_meetings():
     else:
         print(f"Error fetching meetings from Microsoft Calendar: {response.status_code} - {response.text}")
 
+
+
+
+
+def get_ms_user_email():
+    # Fetch the user_email string from the database
+    user_email = frappe.db.get_value(
+        'Third Party Meeting Platform',
+        {
+            'parent': 'Third Party Meeting Configuration',
+            'parentfield': "meeting_configuration",
+            'parenttype': "Third Party Meeting Configuration",
+            'platform_name': "Microsoft"
+        },
+        'user_id'
+    )
+    
+    # Split the string into a list of emails
+    if user_email:
+        email_array = [email.strip() for email in user_email.split(',')]
+        return email_array
+    return []

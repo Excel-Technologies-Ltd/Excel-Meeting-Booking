@@ -9,6 +9,7 @@ from msal import ConfidentialClientApplication
 from frappe.model.document import Document
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+import re
 
 # Set your local time zone (for example, Asia/Dhaka)
 LOCAL_TIME_ZONE = 'Asia/Dhaka'
@@ -29,6 +30,7 @@ class ThirdPartyMeetingConfiguration(Document):
                 elif not meeting_configuration.client_secret:
                     frappe.throw("Client Secret is mandatory for Zoom meeting configuration")
             elif meeting_configuration.platform_name == "Microsoft":
+                
                 if not meeting_configuration.user_id:
                     frappe.throw("User ID is mandatory for Microsoft meeting configuration")
                 elif not meeting_configuration.client_id:
@@ -37,6 +39,13 @@ class ThirdPartyMeetingConfiguration(Document):
                     frappe.throw("Client Secret is mandatory for Microsoft meeting configuration")
                 elif not meeting_configuration.tenant_id:
                     frappe.throw("Tenant ID is mandatory for Microsoft meeting configuration")
+                if meeting_configuration.user_id:
+                    user_ids = [email.strip() for email in meeting_configuration.user_id.split(',')]
+                    email_ids=[]
+                    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$'
+                    for email in user_ids:
+                        if not re.match(email_regex, email):
+                            frappe.throw(f"Invalid email address: {email}")
         
 
     
@@ -64,8 +73,9 @@ class ThirdPartyMeetingConfiguration(Document):
 
                 # Spread new_meetings into the meetings list
                 if isinstance(microsoft_events, list):  # Ensure it's a list before extending
-                    print("Microsoft Events", frappe.as_json(microsoft_events))
+                    # print("Microsoft Events", frappe.as_json(microsoft_events))
                     for event in microsoft_events:
+                        print("Event", frappe.as_json(event))
                         self.create_microsoft_meeting_booking(event)
                 else:
                     self.create_microsoft_meeting_booking(microsoft_events)
@@ -305,16 +315,18 @@ class ThirdPartyMeetingConfiguration(Document):
             
 
     def create_microsoft_meeting_booking(self, meeting):
+        # print("Meeting", frappe.as_json(meeting))
          # Get the current local time
         print("Creating Microsoft Meeting Booking")
-        print(frappe.as_json(meeting))
-
         current_time = datetime.now(pytz.timezone(LOCAL_TIME_ZONE))
   
         # Extract relevant data from Microsoft Calendar event
         event_id = meeting.get('id') # Unique ID for the event
 
         print("Event ID", event_id)
+        branch= self.default_branch
+        room= self.default_room
+        meeting_room = meeting.get('location').get('displayName') or room
 
         title = meeting.get('subject')
         start_time = meeting.get('start').get('dateTime')
@@ -372,7 +384,7 @@ class ThirdPartyMeetingConfiguration(Document):
 				"doctype": "Meeting",
 				"name": "new-meeting",
 				"title": title,
-				"meeting_room": "Board Room - 1",
+				"meeting_room": meeting_room,
 				"start_datetime": f"{start_dt_local.date()} {formatted_start_time}",
 				"end_datetime": f"{start_dt_local.date()} {formatted_end_time}",
 				# Customize as needed
@@ -380,13 +392,13 @@ class ThirdPartyMeetingConfiguration(Document):
 				"excel_start_time": formatted_start_time,
 				"excel_end_time": formatted_end_time,
 				"duration": duration_in_seconds,  # Store duration in total seconds
-				"excel_branch": "HR Tower",  # Customize as needed
+				"excel_branch": branch,  # Customize as needed
 				"guest": guests,  # List of guests
 				"custom_event_id": event_id  # Store the Microsoft Calendar event ID
 			}
 			# Create the meeting in the Meeting doctype
             try:
-                print(meeting_data)
+                # print(meeting_data)
                 new_meeting = frappe.get_doc(meeting_data)
                 new_meeting.insert()
                 frappe.db.commit()
@@ -498,9 +510,10 @@ class ThirdPartyMeetingConfiguration(Document):
     
     def get_microsoft_events(self, meeting_configuration):
         print("Checking Microsoft Meeting")
-        print(frappe.as_json(meeting_configuration))
+        # print(frappe.as_json(meeting_configuration))
         if meeting_configuration.platform_name == "Microsoft":
             user_id = meeting_configuration.get("user_id")
+            user_id = [email.strip() for email in user_id.split(',')]
             client_id = meeting_configuration.get("client_id")
             client_secret = meeting_configuration.get("client_secret")
             tenant_id = meeting_configuration.get("tenant_id")
@@ -509,10 +522,14 @@ class ThirdPartyMeetingConfiguration(Document):
                 frappe.throw("User ID, Client ID, Client Secret, and Tenant ID are mandatory")
             
             token = self.get_microsoft_access_token(client_id, client_secret, tenant_id)
-            print("token", token)
-            events = self.fetch_microsoft_events(token,user_id)
-            print(frappe.as_json(events))
-            return events.get("value", [])
+            all_events = []
+            # print("token", token)
+            for user in user_id:
+                events = self.fetch_microsoft_events(token,user)
+                frappe.msgprint('eventsfg', frappe.as_json(events))
+                if events and "value" in events:
+                    all_events.extend(events.get("value", []))
+            return all_events
 
 
     def get_microsoft_access_token(self, client_id, client_secret, tenant_id):
@@ -521,12 +538,24 @@ class ThirdPartyMeetingConfiguration(Document):
         result = client.acquire_token_for_client(scopes=["https://graph.microsoft.com/.default"])
         return result.get("access_token")
 
-    def fetch_microsoft_events(self, access_token,user_id):
-        api_url = f'https://graph.microsoft.com/v1.0/users/{user_id}/events?$select=id,subject,start,end,attendees'
-        # api_url ='https://graph.microsoft.com/v1.0/me/events?$select=id,subject,start,end,attendees'
+    def fetch_microsoft_events(self, access_token, user_id):
+        today = datetime.now(pytz.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+        tomorrow = today + timedelta(days=10)
+        
+        start_time = today.strftime('%Y-%m-%dT%H:%M')
+        end_time = tomorrow.strftime('%Y-%m-%dT%H:%M')
+        
+        api_url = (
+            f'https://graph.microsoft.com/v1.0/users/{user_id}/events'
+            f"?$select=id,subject,start,end,attendees,location"
+            f"&$filter=start/dateTime ge '{start_time}' and start/dateTime lt '{end_time}'"
+        )
         headers = {
             'Authorization': f'Bearer {access_token}',
             "Content-Type": "application/json"
         }
         response = requests.get(api_url, headers=headers)
         return response.json()
+    
+    
+

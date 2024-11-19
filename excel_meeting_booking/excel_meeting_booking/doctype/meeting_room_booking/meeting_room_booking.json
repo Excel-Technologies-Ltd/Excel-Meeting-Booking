@@ -54,7 +54,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Meeting Room ",
-   "options": "Excel Meeting Room",
+   "options": "ArcApps Meeting Room",
    "reqd": 1
   },
   {
@@ -96,7 +96,7 @@
    "fieldname": "excel_branch",
    "fieldtype": "Link",
    "label": "Branch ",
-   "options": "Excel Branch",
+   "options": "ArcApps Branch",
    "reqd": 1
   },
   {
@@ -287,7 +287,7 @@
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-07 14:33:54.759904",
+ "modified": "2024-11-19 11:33:55.048781",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting Room Booking",

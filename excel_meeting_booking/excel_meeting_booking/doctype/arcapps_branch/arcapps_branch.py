@@ -4,5 +4,5 @@
 # import frappe
 from frappe.model.document import Document
 
-class ExcelBranch(Document):
+class ArcAppsBranch(Document):
 	pass

@@ -7,7 +7,9 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "meeting_configuration"
+  "meeting_configuration",
+  "default_branch",
+  "default_room"
  ],
  "fields": [
   {
@@ -15,12 +17,25 @@
    "fieldtype": "Table",
    "label": "Meeting Configuration",
    "options": "Third Party Meeting Platform"
+  },
+  {
+   "fieldname": "default_branch",
+   "fieldtype": "Link",
+   "label": "Default Branch",
+   "options": "ArcApps Branch"
+  },
+  {
+   "fieldname": "default_room",
+   "fieldtype": "Link",
+   "label": "Default Room",
+   "options": "ArcApps Meeting Room"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-10-20 16:15:43.079673",
+ "make_attachments_public": 1,
+ "modified": "2024-11-19 14:07:25.591732",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Third Party Meeting Configuration",

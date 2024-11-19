@@ -30,7 +30,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Branch",
-   "options": "Excel Branch"
+   "options": "ArcApps Branch"
   },
   {
    "fieldname": "excel_meeting_room",
@@ -67,10 +67,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-22 15:13:01.906131",
+ "make_attachments_public": 1,
+ "modified": "2024-11-19 14:39:12.648804",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
- "name": "Excel Meeting Room",
+ "name": "ArcApps Meeting Room",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [

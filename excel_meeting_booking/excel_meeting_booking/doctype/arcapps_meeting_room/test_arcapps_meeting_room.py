@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestExcelBranch(FrappeTestCase):
+class TestArcAppsMeetingRoom(FrappeTestCase):
 	pass

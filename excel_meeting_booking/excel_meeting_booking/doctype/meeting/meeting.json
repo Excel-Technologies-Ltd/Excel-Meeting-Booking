@@ -36,7 +36,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Meeting Room",
-   "options": "Excel Meeting Room"
+   "options": "ArcApps Meeting Room"
   },
   {
    "fieldname": "meeting_date",
@@ -121,7 +121,7 @@
  "icon": "fa fa-calendar",
  "is_calendar_and_gantt": 1,
  "links": [],
- "modified": "2024-10-24 17:53:27.927142",
+ "modified": "2024-11-19 11:33:54.457347",
  "modified_by": "Administrator",
  "module": "Excel Meeting Booking",
  "name": "Meeting",
