@@ -195,7 +195,8 @@ class MeetingRoomBooking(Document):
         existing_time_slots = frappe.db.get_list("Meeting",
             filters={
                 'meeting_date': date,
-                'meeting_room': self.meeting_room
+                'meeting_room': self.meeting_room,
+                "status":'Open'
             },
             fields=['excel_start_time', 'excel_end_time'],
         )
