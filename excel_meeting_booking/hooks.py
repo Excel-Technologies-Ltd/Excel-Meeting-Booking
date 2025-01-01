@@ -223,3 +223,5 @@ fixtures = [
 # auth_hooks = [
 #	"excel_meeting_booking.auth.validate"
 # ]
+
+website_route_rules = [{'from_route': '/portal/<path:app_path>', 'to_route': 'portal'},]
