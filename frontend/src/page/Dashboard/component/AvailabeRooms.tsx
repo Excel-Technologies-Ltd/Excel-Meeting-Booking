@@ -75,7 +75,7 @@ export const AvailableRooms = () => {
   return (
     <div className="p-6">
       <h2 className="text-xl font-semibold text-white mb-4">Meeting Rooms</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
         {meetingsWithRoomData?.map((details: any, index: any) => {
           const roomStatus = getMeetingsWithStatus(details.meetings || []);
 

@@ -64,7 +64,7 @@ const Login = () => {
         <div className="flex flex-col items-center mb-6">
           {/* <img src="/logo-white.png" className="w-24 mb-4" alt=" Logo" /> */}
           <h1 className="text-2xl sm:text-3xl font-bold text-white text-center">
-            Welcome to <span className="text-primaryColor">EPICBD</span>
+            {/* Login to <span className="text-primaryColor">Workspace</span> */}
           </h1>
         </div>
 

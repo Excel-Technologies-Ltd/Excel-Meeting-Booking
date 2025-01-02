@@ -23,9 +23,9 @@ const DigitalClock: React.FC = () => {
 
   return (
     <div
+      className="text-xl "
       style={{
         fontFamily: "'Poppins', sans-serif",
-        fontSize: "2.5rem",
         fontWeight: "600",
         color: "#FFFFFF",
         backgroundColor: "rgba(0, 0, 0, 0.75)", // Semi-transparent black
