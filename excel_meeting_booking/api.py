@@ -25,12 +25,12 @@ def find_meeting_by_room_and_date(room_name, date):
         "Meeting",
         filters={
             "meeting_room": meeting_room_name,  # Use the string value
-            "meeting_date": ['=', date], 
+            "meeting_date": ['>=', date], 
             "status": "Open"
         },
-        fields=["title", "meeting_room", "meeting_date", "start_datetime", "end_datetime", "status"],
+        fields=["name", "title", "meeting_room", "meeting_date", "start_datetime", "end_datetime", "status"],
         order_by="start_datetime",
-        limit=2
+        limit=4
     )
 
 def set_meeting_status():
