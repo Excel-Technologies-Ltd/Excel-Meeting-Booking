@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
 import { URL_DASHBOARD, URL_LOGIN } from "./router-link";

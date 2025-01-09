@@ -112,7 +112,7 @@ export const AvailableRooms = () => {
             >
               {roomStatus.type === 2 && roomStatus?.meeting ? (
                 <div className="flex flex-row justify-between items-center gap-2 w-full">
-                  <div className="flex flex-col justify-between items-center  p-2 gap-3">
+                  <div className="flex flex-col justify-between items-start  p-2 gap-3">
                     <h3 className="text-lg font-bold">{details?.name}</h3>
                     <CapsuleButton status="Ongoing" />
                     <p className="text-sm text-gray-300">
@@ -150,7 +150,7 @@ export const AvailableRooms = () => {
                 </div>
               ) : roomStatus?.type === 3 && roomStatus?.meeting ? (
                 <div className="flex flex-row justify-between items-center   gap-2">
-                  <div className="mt-2 flex flex-col justify-between items-center  p-2 gap-3">
+                  <div className="mt-2 flex flex-col justify-between items-start  p-2 gap-3">
                     <h3 className="text-lg font-bold">{details?.name}</h3>
                     <CapsuleButton status="Upcoming" />
                     <p className="text-sm text-gray-300">
@@ -180,7 +180,7 @@ export const AvailableRooms = () => {
                 </div>
               ) : (
                 <div className="mt-2 flex flex-row justify-between items-center  p-2 gap-3">
-                  <div className="flex flex-col gap-3 items-center">
+                  <div className="flex flex-col gap-3 items-start">
                     <h3 className="text-lg font-bold">{details?.name}</h3>
                     <CapsuleButton status="Available" />
                     <p className="text-sm text-gray-300">Available all day</p>
