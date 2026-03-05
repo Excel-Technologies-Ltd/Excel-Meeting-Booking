@@ -8,11 +8,11 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <FrappeProvider
       siteName="http://localhost:8001"
-      
-      enableSocket={true}
+      enableSocket={false}
       socketPort="9001"
     >
       <App />
+      
     </FrappeProvider>
   </StrictMode>
 );

@@ -1,41 +1,45 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { lazy } from "react";
+import { createBrowserRouter, } from "react-router-dom";
 
-import { URL_DASHBOARD, URL_LOGIN } from "./router-link";
+import Loadable from "../component/loader/Loadable";
+
+import Layout from "../component/layout/Layout";
+import { URL_DASHBOARD, URL_LOGIN, URL_NEW_MEETING_BOOKING, URL_TODO } from "./router-link";
 
 // Lazy load your components
-const Login = lazy(() => import("../page/Login/Login"));
-const MeetingDashboard = lazy(() => import("../page/Dashboard/Dashboard"));
-const NotFoundPage = lazy(() => import("../page/NotFound/NotFound"));
+const ToDoPage = Loadable(lazy(() => import("../page/ToDo/ToDo")));
+const Login = Loadable(lazy(() => import("../page/Login/Login") ));
+const MeetingDashboard = Loadable(lazy(() => import("../page/Dashboard/Dashboard")));
+const MeetingBooking = Loadable(lazy(() => import("../page/meeting-booking/MeetingBooking")));
+const NotFoundPage = Loadable(lazy(() => import("../page/NotFound/NotFound")));
 
-// Create a loader component
-const Loader = () => <div>Loading...</div>;
 
 export const router = createBrowserRouter(
   [
     {
       path: URL_LOGIN(),
-      element: (
-        <Suspense fallback={<Loader />}>
-          <Login />
-        </Suspense>
-      ),
+      element: <Login />
     },
     {
+    element: <Layout />, // Wrap protected routes with Layout
+    children: [
+      {
       path: URL_DASHBOARD(),
-      element: (
-        <Suspense fallback={<Loader />}>
-          <MeetingDashboard />
-        </Suspense>
-      ),
+      element: <MeetingDashboard />      
     },
+    {
+      path: URL_NEW_MEETING_BOOKING(),
+      element: <MeetingBooking />      
+    },
+    {
+      path: URL_TODO(),
+      element: <ToDoPage />
+      },]
+    },
+    
     {
       path: "*",
-      element: (
-        <Suspense fallback={<Loader />}>
-          <NotFoundPage />
-        </Suspense>
-      ),
+      element: <NotFoundPage />,
     },
   ],
   { basename: "/portal" }

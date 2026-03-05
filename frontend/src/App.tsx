@@ -1,12 +1,13 @@
-import "./App.css";
 import { useFrappeAuth } from "frappe-react-sdk";
-import { router } from "./router/router";
-import { RouterProvider } from "react-router-dom";
-import Login from "./page/Login/Login";
-import Dashboard from "./page/Dashboard/Dashboard";
 import { Toaster } from "react-hot-toast";
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
+import { router } from "./router/router";
 function App() {
-  const { currentUser } = useFrappeAuth();
+  const { currentUser,  } = useFrappeAuth();
+
+  console.log({currentUser});
+  
   return (
     <div className="App">
       <Toaster />

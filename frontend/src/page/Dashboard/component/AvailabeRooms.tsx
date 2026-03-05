@@ -1,7 +1,10 @@
-import { useFrappeGetCall } from "frappe-react-sdk";
-import CountdownTimer from "./CountDown";
+import { useFrappeGetCall, useFrappeGetDocList } from "frappe-react-sdk";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Title from "../../../component/title/Title";
+import { URL_NEW_MEETING_BOOKING } from "../../../router/router-link";
 import CapsuleButton from "./CapsuleButton";
+import CountdownTimer from "./CountDown";
 
 type TMeeting = {
   name: string;
@@ -23,7 +26,19 @@ export const AvailableRooms = () => {
   } = useFrappeGetCall(
     "excel_meeting_booking.api.get_running_or_upcoming_meetings"
   );
-  console.log({ roomsData });
+
+  const {
+    data: roomsData1,
+    error: error1,
+    mutate: mutate1,
+  } = useFrappeGetDocList("Meeting Room Booking");
+  console.log({
+    roomsData1,
+    error1,
+    mutate1,
+  });
+  
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       mutate(); // Refetch API data
@@ -101,7 +116,18 @@ export const AvailableRooms = () => {
   };
   return (
     <div className="p-6">
-      <h2 className="text-xl font-semibold text-white mb-4">Meeting Rooms</h2>
+      <div className="flex gap-2 justify-between mb-4 items-end md:items-center">
+        {/* <h1 className="text-xl font-semibold text-white ">Meeting Rooms</h1> */}
+        <Title size="2xl" color="white" weight="semibold">
+          Meeting Rooms
+        </Title>
+        <div className=" font-semibold text-white">
+          <Link className="border px-2 md:px-4 py-1.5 md:py-2 text-base rounded-lg " to={URL_NEW_MEETING_BOOKING()}>
+            New Booking
+          </Link>
+        </div>
+      </div>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
         {meetingsWithRoomData?.map((details: any, index: any) => {
           const roomStatus = getMeetingsWithStatus(details.meetings || []);

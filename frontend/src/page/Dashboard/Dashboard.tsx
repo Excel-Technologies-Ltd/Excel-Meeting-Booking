@@ -1,9 +1,9 @@
 import { useFrappeAuth } from "frappe-react-sdk";
-import { AvailableRooms } from "./component/AvailabeRooms";
-import { Header } from "./component/Header";
-import { URL_LOGIN } from "../../router/router-link";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../component/loader/Loader";
+import { URL_LOGIN } from "../../router/router-link";
+import { AvailableRooms } from "./component/AvailabeRooms";
 
 const MeetingDashboard = () => {
   const { currentUser, isLoading } = useFrappeAuth();
@@ -23,20 +23,13 @@ const MeetingDashboard = () => {
 
   // Optional: Show loading state while checking authentication
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader variant="page" />;
   }
 
   return (
-    <div className="min-h-screen bg-cover bg-center relative overflow-y-auto p-6">
-      {/* Background overlay */}
-      <div className="fixed inset-0 bg-black bg-opacity-60 z-0 pointer-events-none"></div>
-
-      {/* Scrollable content */}
-      <div className="relative z-10 max-h-screen overflow-y-auto">
-        <Header />
+    
         <AvailableRooms />
-      </div>
-    </div>
+   
   );
 };
 
