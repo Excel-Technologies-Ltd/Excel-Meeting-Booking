@@ -10,7 +10,7 @@ import { URL_DASHBOARD, URL_LOGIN, URL_NEW_MEETING_BOOKING, URL_TODO } from "./r
 const ToDoPage = Loadable(lazy(() => import("../page/ToDo/ToDo")));
 const Login = Loadable(lazy(() => import("../page/Login/Login") ));
 const MeetingDashboard = Loadable(lazy(() => import("../page/Dashboard/Dashboard")));
-const MeetingBooking = Loadable(lazy(() => import("../page/meeting-booking/MeetingBooking")));
+const MeetingBooking = Loadable(lazy(() => import("../page/MeetingBooking/MeetingBooking")));
 const NotFoundPage = Loadable(lazy(() => import("../page/NotFound/NotFound")));
 
 

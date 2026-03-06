@@ -1,21 +1,22 @@
 import react from "@vitejs/plugin-react";
-import path from "path";
+// import path from "path";
 import { defineConfig } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 import proxyOptions from "./proxyOptions";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   server: {
     port: 8080,
     host: '0.0.0.0',
     proxy: proxyOptions,
   },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     "@": path.resolve(__dirname, "src"),
+  //   },
+  // },
   build: {
     outDir: "../excel_meeting_booking/public/frontend",
     emptyOutDir: true,

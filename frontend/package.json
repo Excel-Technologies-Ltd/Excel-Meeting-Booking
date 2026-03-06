@@ -11,18 +11,22 @@
     "copy-html-entry": "cp ../excel_meeting_booking/public/frontend/index.html ../excel_meeting_booking/www/portal.html"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.34.0",
+    "@emotion/react": "^11.14.0",
     "clsx": "^2.1.1",
     "frappe-react-sdk": "^1.9.0",
+    "next-themes": "^0.4.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
-    "react-icons": "^5.4.0",
+    "react-icons": "^5.6.0",
     "react-router": "^6.27.0",
     "react-router-dom": "^6.27.0",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@types/node": "^25.3.3",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
@@ -37,6 +41,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-tsconfig-paths": "^6.1.1"
   }
 }
