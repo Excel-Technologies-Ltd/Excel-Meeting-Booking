@@ -6,10 +6,10 @@ import { LuCalendar } from "react-icons/lu"
 
 const DatePickerComponent = () => {
   return (
-    <DatePicker.Root   maxWidth="20rem">
+    <DatePicker.Root   maxWidth="20rem" >
       <DatePicker.Label className="">Date of birth</DatePicker.Label>
-      <DatePicker.Control className="border rounded">
-        <DatePicker.Input className="pl-2 text-white" />
+      <DatePicker.Control className="">
+        <DatePicker.Input className="" />
         <DatePicker.IndicatorGroup>
           <DatePicker.Trigger>
             <LuCalendar />

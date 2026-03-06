@@ -17,7 +17,40 @@
     --color-bg: #ff5556;
     --color-black: #474747;
 
-    --color-black: #ff006a28;
+    /* Migrated from DaisyUI config */
+    /* --bg: #F5F5F5; */
+    --whiteColor: #ffffff;
+    --red: #FF0000;
+    --secondary: #ED8958;
+    --primary: #155e75;
+    --lightPrimary: #155f752c;
+    --darkPrimary: #0b5468;
+    --bg-color: #fff;
+    --text-color: #000;
+    --gray-color: #000;
+    --border: #00000020;
+    --main-color: #ff5556;
+    --main-color200: #2D62AE20;
+    --borderColor: #dddde2;
+    --grayTextColor: #636363;
+  }
+
+  /* Dark mode overrides */
+  .dark {
+    --bg: #161A1F;
+    --whiteColor: #ffffff;
+    --secondary: #ED8958;
+    --primary: #FF2B85;
+    --lightPrimary: #ff2b8327;
+    --darkPrimary: #ff006a;
+    --bg-color: #1C2126;
+    --text-color: #ffffff99;
+    --gray-color: #ffffff99;
+    --border: #ffffff30;
+    --main-color: #2D62AE;
+    --main-color200: #2D62AE20;
+    --borderColor: #dddde2;
+    --grayTextColor: #636363;
   }
 }
 body {
@@ -42,6 +75,17 @@ body,
 #root {
   height: 100%;
 }
+
+input,
+select,
+textarea {
+  color: #fff;
+}
+
+/* input::placeholder,
+textarea::placeholder {
+  color: #ffffff80 !important;
+} */
 
 /* body {
   font-family: "Ubuntu";
