@@ -14,11 +14,13 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
       <ChakraDatePicker.Root ref={ref} startOfWeek={1} {...rest}>
         <ChakraDatePicker.Control>
           <ChakraDatePicker.Input />
-          <ChakraDatePicker.Trigger asChild>
+          <ChakraDatePicker.IndicatorGroup>
+           <ChakraDatePicker.Trigger asChild>
             <IconButton variant="ghost" aria-label="Open calendar">
               <LuCalendar />
             </IconButton>
-          </ChakraDatePicker.Trigger>
+           </ChakraDatePicker.Trigger>
+          </ChakraDatePicker.IndicatorGroup>
         </ChakraDatePicker.Control>
         <Portal>
           <ChakraDatePicker.Positioner>
@@ -78,3 +80,38 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     )
   },
 )
+
+
+/**
+ *       <DatePicker.Label className="">Date of birth</DatePicker.Label>
+ * 
+ *     <DatePicker.Root   maxWidth="20rem" >
+
+      <DatePicker.Control className="">
+        <DatePicker.Input className="" />
+        <DatePicker.IndicatorGroup>
+          <DatePicker.Trigger>
+            <LuCalendar />
+          </DatePicker.Trigger>
+        </DatePicker.IndicatorGroup>
+      </DatePicker.Control>
+      <Portal>
+        <DatePicker.Positioner>
+          <DatePicker.Content>
+            <DatePicker.View view="day">
+              <DatePicker.Header />
+              <DatePicker.DayTable />
+            </DatePicker.View>
+            <DatePicker.View view="month">
+              <DatePicker.Header />
+              <DatePicker.MonthTable />
+            </DatePicker.View>
+            <DatePicker.View view="year">
+              <DatePicker.Header />
+              <DatePicker.YearTable />
+            </DatePicker.View>
+          </DatePicker.Content>
+        </DatePicker.Positioner>
+      </Portal>
+    </DatePicker.Root>
+ */
