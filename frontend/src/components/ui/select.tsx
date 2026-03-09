@@ -1,9 +1,9 @@
 "use client"
 
 import type { CollectionItem } from "@chakra-ui/react"
-import { Select as ChakraSelect, Portal } from "@chakra-ui/react"
-import { CloseButton } from "./close-button"
+import { Select as ChakraSelect, Portal, Text } from "@chakra-ui/react"
 import * as React from "react"
+import { CloseButton } from "./close-button"
 
 interface SelectTriggerProps extends ChakraSelect.ControlProps {
   clearable?: boolean
@@ -89,7 +89,7 @@ export const SelectValueText = React.forwardRef<
       <ChakraSelect.Context>
         {(select) => {
           const items = select.selectedItems
-          if (items.length === 0) return props.placeholder
+          if (items.length === 0) return <Text color={"gray.400"}> {props.placeholder} </Text>
           if (children) return children(items)
           if (items.length === 1)
             return select.collection.stringifyItem(items[0])
@@ -109,15 +109,9 @@ export const SelectRoot = React.forwardRef<
       {...props}
       ref={ref}
       positioning={{ sameWidth: true, ...props.positioning }}
+      ids={{ ...props.ids, hiddenSelect: undefined }}
     >
-      {props.asChild ? (
-        props.children
-      ) : (
-        <>
-          <ChakraSelect.HiddenSelect />
-          {props.children}
-        </>
-      )}
+      {props.children}
     </ChakraSelect.Root>
   )
 }) as ChakraSelect.RootComponent

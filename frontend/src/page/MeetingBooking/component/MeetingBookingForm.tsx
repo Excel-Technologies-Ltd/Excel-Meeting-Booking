@@ -1,4 +1,8 @@
-import { Button, Input, SimpleGrid, Stack, createListCollection } from "@chakra-ui/react"
+
+import { FormTimePicker } from "@/component/form-elements/FormTimePicker"
+import { Checkbox } from "@/components/ui/checkbox"
+import { SelectContent, SelectItem, SelectRoot, SelectTrigger, SelectValueText } from "@/components/ui/select"
+import { Button, CheckboxGroup, createListCollection, Input, SimpleGrid, Stack } from "@chakra-ui/react"
 import { parseDate } from "@internationalized/date"
 import { useState } from "react"
 import { Controller } from "react-hook-form"
@@ -17,6 +21,24 @@ import { useMeetingBookingForm } from "./useMeetingBookingForm"
 
 type Props = {}
 
+const repeatOptions = createListCollection({
+  items: [
+    { label: "Yes", value: "Yes" },
+    { label: "No", value: "No" },
+  ],
+})
+
+const repeatOnOptions = createListCollection({
+  items: [
+    { label: "Daily", value: "Daily" },
+    { label: "Weekly", value: "Weekly" },
+    { label: "Monthly", value: "Monthly" },
+  ],
+})
+
+const daysOfWeek = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+
 const MeetingBookingForm = ({}: Props) => {
   const [inputValue, setInputValue] = useState("")
   const debouncedSearchTerm = useDebounce(inputValue, 300)
@@ -24,8 +46,10 @@ const MeetingBookingForm = ({}: Props) => {
   const [branchInputValue, setBranchInputValue] = useState("")
   const debouncedBranchSearchTerm = useDebounce(branchInputValue, 300)
 
-  const { register, control, handleSubmit, errors, loading, meetingRooms, branches } =
+  const { register, control, handleSubmit, errors, loading, meetingRooms, branches, watch } =
     useMeetingBookingForm(debouncedSearchTerm, debouncedBranchSearchTerm)
+
+  const repeatThisMeeting = watch("repeat_this_meeting")
 
   const meetingRoomsCollection = createListCollection({
     items:
@@ -40,16 +64,18 @@ const MeetingBookingForm = ({}: Props) => {
         ?.filter((branch) => branch.name.toLowerCase().includes(branchInputValue.toLowerCase()))
         .map((branch) => ({ label: branch.name, value: branch.name })) || [],
   })
+  
 
   return (
-    <div className="px-6 py-2 max-w-7xl mx-auto border border-gray-400 backdrop-blur-xs rounded-lg">
+    <div className="px-5 my-2 border border-gray-400 max-w-7xl mx-auto p-4 rounded-lg shadow-lg backdrop-blur-md bg-white bg-opacity-10  text-white">
       <Stack gap={6}>
         <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap={6}>
-          <Field label="Meeting Title" invalid={!!errors.title} errorText={errors.title?.message}>
-            <Input {...register("title")} placeholder="Meeting Title" />
+          <Field required label="Meeting Title" invalid={!!errors.title} errorText={errors.title?.message}>
+            <Input {...register("title")} placeholder="Meeting Title" _placeholder={{ color: "gray.400" }} />
           </Field>
           <Field
             label="Meeting Room"
+            required
             invalid={!!errors.meeting_room}
             errorText={errors.meeting_room?.message}
           >
@@ -66,7 +92,7 @@ const MeetingBookingForm = ({}: Props) => {
                   collection={meetingRoomsCollection}
                 >
                   <ComboboxControl>
-                    <ComboboxInput placeholder="Select Meeting Room" />
+                    <ComboboxInput placeholder="Select Meeting Room" _placeholder={{ color: "gray.400" }} />
                   </ComboboxControl>
                     <ComboboxContent maxHeight="200px" overflowY="auto" color={"black"}>
                     {meetingRoomsCollection.items.map((movie) => (
@@ -81,6 +107,7 @@ const MeetingBookingForm = ({}: Props) => {
           </Field>
           <Field
             label="Branch"
+            required
             invalid={!!errors.excel_branch}
             errorText={errors.excel_branch?.message}
           >
@@ -97,7 +124,7 @@ const MeetingBookingForm = ({}: Props) => {
                   collection={branchesCollection}
                 >
                   <ComboboxControl>
-                    <ComboboxInput placeholder="Select Branch" />
+                    <ComboboxInput placeholder="Select Branch"/>
                   </ComboboxControl>
                   <ComboboxContent maxHeight="200px" overflowY="auto" color={"black"}>
                     {branchesCollection.items.map((branch) => (
@@ -110,7 +137,7 @@ const MeetingBookingForm = ({}: Props) => {
               )}
             />
           </Field>
-          <Field label="Date" invalid={!!errors.start_date} errorText={errors.start_date?.message}>
+          <Field required label="Date" invalid={!!errors.start_date} errorText={errors.start_date?.message}>
             <Controller
               control={control}
               name="start_date"
@@ -123,24 +150,142 @@ const MeetingBookingForm = ({}: Props) => {
               )}
             />
           </Field>
-          <Field label="Start Time" invalid={!!errors.start_time} errorText={errors.start_time?.message}>
-            <Input type="time" {...register("start_time")} />
+          <Field required label="Start Time" invalid={!!errors.start_time} errorText={errors.start_time?.message}>
+            <FormTimePicker  name="start_time" control={control}  />
           </Field>
-          <Field label="End Time" invalid={!!errors.end_time} errorText={errors.end_time?.message}>
-             <Input type="time" {...register("end_time")} />
+          <Field required label="End Time" invalid={!!errors.end_time} errorText={errors.end_time?.message}>
+            <FormTimePicker name="end_time" control={control}  />
           </Field>
-           <Field label="Duration (minutes)" invalid={!!errors.duration} errorText={errors.duration?.message}>
+           <Field required label="Duration (minutes)" invalid={!!errors.duration} errorText={errors.duration?.message}>
             <Input
               type="number"
               {...register("duration")}
               placeholder="60"
+              _placeholder={{ color: "gray.400" }}
             />
           </Field>
+           <Field  required label="Repeat This Meeting" invalid={!!errors.repeat_this_meeting} errorText={errors.repeat_this_meeting?.message}>
+            <Controller
+              control={control}
+              name="repeat_this_meeting"
+              render={({ field }) => (
+                <SelectRoot
+                  collection={repeatOptions}
+                  value={field.value ? [field.value] : []}
+                  onValueChange={(e) => field.onChange(e.value[0])}
+                  size="sm"
+                >
+                  <SelectTrigger>
+                    <SelectValueText _placeholder={{ color: "gray.400" }} placeholder="Select option" />
+                  </SelectTrigger>
+                  <SelectContent color="black">
+                    {repeatOptions.items.map((item) => (
+                      <SelectItem item={item} key={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
+              )}
+            />
+           </Field>
+           {repeatThisMeeting === "Yes" && (
+            <>
+           <Field  required label="Repeat On" invalid={!!errors.repeat_on} errorText={errors.repeat_on?.message}>
+            <Controller
+              control={control}
+              name="repeat_on"
+              render={({ field }) => (
+                <SelectRoot
+                  collection={repeatOnOptions}
+                  value={field.value ? [field.value] : []}
+                  onValueChange={(e) => field.onChange(e.value[0])}
+                  size="sm"
+                >
+                  <SelectTrigger>
+                    <SelectValueText  placeholder="Select frequency" />
+                  </SelectTrigger>
+                  <SelectContent color="black">
+                    {repeatOnOptions.items.map((item) => (
+                      <SelectItem item={item} key={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
+              )}
+            />
+           </Field>
+
+           <Field  required label="Repeat Till" invalid={!!errors.end_date} errorText={errors.end_date?.message}>
+            <Controller
+              control={control}
+              name="end_date"
+              render={({ field }) => (
+                <DatePicker
+                  name={field.name}
+                  value={field.value ? [parseDate(field.value)] : []}
+                  onValueChange={(e) => field.onChange(e.value[0] ? e.value[0].toString() : "")}
+                />
+              )}
+            />
+           </Field>
+
+           {/* <Field label="Repeat Days" invalid={!!errors.repeat_days} errorText={errors.repeat_days?.message}>
+            <Stack direction="row" flexWrap="wrap" gap={3}></Stack>
+            {daysOfWeek?.map((day) =>  (
+              
+            <Controller
+              control={control}
+              name="end_date"
+              render={({ field }) => (
+                <DatePicker
+                  name={field.name}
+                  value={field.value ? [parseDate(field.value)] : []}
+                  onValueChange={(e) => field.onChange(e.value[0] ? e.value[0].toString() : "")}
+                />
+              )}
+            />
+            ))}
+           </Field> */}
+           <Field label="Repeat Days" invalid={!!errors.repeat_days} errorText={errors.repeat_days?.message}>
+            <Controller
+              control={control}
+              name="repeat_days"
+              render={({ field }) => (
+                <CheckboxGroup
+                  value={field.value || []}
+                  onValueChange={(values) => field.onChange(values)}
+                >
+                  <Stack direction="row" flexWrap="wrap" gap={3}>
+                    {daysOfWeek.map((day) => (
+                      <Checkbox key={day} value={day} size="sm" colorPalette="green"
+                        checked={(field.value || []).includes(day)}
+                        onCheckedChange={(e) => {
+                          const current = field.value || []
+                          if (e.checked) {
+                            field.onChange([...current, day])
+                          } else {
+                            field.onChange(current.filter((d: string) => d !== day))
+                          }
+                        }}
+                      >
+                        {day}
+                      </Checkbox>
+                    ))}
+                  </Stack>
+                </CheckboxGroup>
+              )}
+            />
+           </Field>
+            </>
+           )}
         </SimpleGrid>
-        <Button onClick={handleSubmit} loading={loading} alignSelf="flex-end" colorPalette="white">
+        <Button onClick={handleSubmit} loading={loading} alignSelf="flex-end" colorPalette="white" border={"fs.success"}>
           Book Meeting
         </Button>
       </Stack>
+
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import { Slider as ChakraSlider, For, HStack } from "@chakra-ui/react"
-import * as React from "react"
+import { Slider as ChakraSlider, For, HStack } from "@chakra-ui/react";
+import * as React from "react";
 
 export interface SliderProps extends ChakraSlider.RootProps {
   marks?: Array<number | { value: number; label: React.ReactNode }>
@@ -34,7 +34,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           <ChakraSlider.Track>
             <ChakraSlider.Range />
           </ChakraSlider.Track>
-          <SliderThumbs value={value} />
+          <SliderThumbs  value={value} />
           <SliderMarks marks={marks} />
         </ChakraSlider.Control>
       </ChakraSlider.Root>

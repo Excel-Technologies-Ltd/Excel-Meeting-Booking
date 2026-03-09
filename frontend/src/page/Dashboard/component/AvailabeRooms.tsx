@@ -2,7 +2,7 @@ import { useFrappeGetCall, useFrappeGetDocList } from "frappe-react-sdk";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Title from "../../../component/title/Title";
-import { URL_NEW_MEETING_BOOKING } from "../../../router/router-link";
+import { URL_MEETING_BOOKING } from "../../../router/router-link";
 import CapsuleButton from "./CapsuleButton";
 import CountdownTimer from "./CountDown";
 
@@ -122,8 +122,8 @@ export const AvailableRooms = () => {
           Meeting Rooms
         </Title>
         <div className=" font-semibold text-white">
-          <Link className="border px-2 md:px-4 py-1.5 md:py-2 text-base rounded-lg " to={URL_NEW_MEETING_BOOKING()}>
-            New Booking
+          <Link className="border px-2 md:px-4 py-1.5 md:py-2 text-base rounded-lg " to={URL_MEETING_BOOKING()}>
+            Bookings
           </Link>
         </div>
       </div>

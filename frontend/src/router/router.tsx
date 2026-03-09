@@ -3,8 +3,9 @@ import { createBrowserRouter, } from "react-router-dom";
 
 import Loadable from "../component/loader/Loadable";
 
+import BookingList from "@/page/BookingList/BookingList";
 import Layout from "../component/layout/Layout";
-import { URL_DASHBOARD, URL_LOGIN, URL_NEW_MEETING_BOOKING, URL_TODO } from "./router-link";
+import { URL_DASHBOARD, URL_LOGIN, URL_MEETING_BOOKING, URL_NEW_MEETING_BOOKING, URL_TODO } from "./router-link";
 
 // Lazy load your components
 const ToDoPage = Loadable(lazy(() => import("../page/ToDo/ToDo")));
@@ -28,8 +29,12 @@ export const router = createBrowserRouter(
       element: <MeetingDashboard />      
     },
     {
+      path: URL_MEETING_BOOKING(),
+      element: <BookingList />      
+    },
+    {
       path: URL_NEW_MEETING_BOOKING(),
-      element: <MeetingBooking />      
+       element: <MeetingBooking />       
     },
     {
       path: URL_TODO(),

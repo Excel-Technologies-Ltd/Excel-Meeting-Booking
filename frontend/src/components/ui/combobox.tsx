@@ -1,8 +1,8 @@
 "use client"
 
 import { Combobox as ChakraCombobox, Portal } from "@chakra-ui/react"
-import { CloseButton } from "./close-button"
 import * as React from "react"
+import { CloseButton } from "./close-button"
 
 interface ComboboxControlProps extends ChakraCombobox.ControlProps {
   clearable?: boolean
@@ -29,7 +29,7 @@ const ComboboxClearTrigger = React.forwardRef<
   ChakraCombobox.ClearTriggerProps
 >(function ComboboxClearTrigger(props, ref) {
   return (
-    <ChakraCombobox.ClearTrigger asChild {...props} ref={ref}>
+    <ChakraCombobox.ClearTrigger asChild {...props} ref={ref} >
       <CloseButton
         size="xs"
         variant="plain"
