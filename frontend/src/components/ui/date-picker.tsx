@@ -18,7 +18,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(func
       format={format}
       parse={parse}
       placeholder="dd/mm/yyyy"
-      maxWidth="20rem"
+      // maxWidth="20rem"
     >
       <ChakraDatePicker.Control>
         <ChakraDatePicker.Input _placeholder={{ color: "gray.400" }} />

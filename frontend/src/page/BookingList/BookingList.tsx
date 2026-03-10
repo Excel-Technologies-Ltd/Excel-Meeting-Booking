@@ -57,7 +57,7 @@ const BookingList = () => {
   // Get Current List Doc Count for pagination
   const { data: docCount } = useFrappeGetDocList("Meeting Room Booking", {
     fields: ["count(name)"],
-    filters: [["docstatus", "!=", "2"]],
+    filters: [["docstatus", "=", "1"]],
   });
   const count = docCount?.[0]?.["count(name)"] ?? 0;
 
@@ -75,6 +75,7 @@ const BookingList = () => {
     fields: ["name", "title", "docstatus", "meeting_room", "start_time", "start_date"],
     // fields: ["name", "title", "docstatus", "meeting_room", "start_time", "start_date", "creation", "_comment_count"],
     orderBy: { field: "creation", order: "desc" },
+    filters: [["docstatus", "=", "1"]],
     limit_start: (page - 1) * pageSize,
     limit: pageSize,
   });
