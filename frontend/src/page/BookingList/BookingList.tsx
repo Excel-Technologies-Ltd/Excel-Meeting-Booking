@@ -1,15 +1,7 @@
-
-import {
-    Badge,
-    Box,
-    Button,
-    Flex,
-    HStack,
-    Table,
-    Text,
-} from "@chakra-ui/react";
+import Pagination from "@/components/ui/pagination";
+import { Badge, Box, Button, Flex, HStack, Table, Text } from "@chakra-ui/react";
 import { useFrappeAuth, useFrappeGetDocList } from "frappe-react-sdk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../component/loader/Loader";
@@ -56,8 +48,18 @@ function truncateId(name: string): string {
 const BookingList = () => {
   const navigate = useNavigate();
   const { currentUser, isLoading: authLoading } = useFrappeAuth();
-//   const [liked, setLiked] = useState<Set<string>>(new Set());
-//   const [selected, setSelected] = useState<Set<string>>(new Set());
+  //   const [liked, setLiked] = useState<Set<string>>(new Set());
+  //   const [selected, setSelected] = useState<Set<string>>(new Set());
+
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+
+  // Get Current List Doc Count for pagination
+  const { data: docCount } = useFrappeGetDocList("Meeting Room Booking", {
+    fields: ["count(name)"],
+    filters: [["docstatus", "!=", "2"]],
+  });
+  const count = docCount?.[0]?.["count(name)"] ?? 0;
 
   useEffect(() => {
     if (!authLoading && !currentUser) {
@@ -70,43 +72,44 @@ const BookingList = () => {
     isLoading,
     error,
   } = useFrappeGetDocList<BookingItem>("Meeting Room Booking", {
-    fields:["name", "title", "docstatus","meeting_room", "start_time",  "start_date", ],
+    fields: ["name", "title", "docstatus", "meeting_room", "start_time", "start_date"],
     // fields: ["name", "title", "docstatus", "meeting_room", "start_time", "start_date", "creation", "_comment_count"],
     orderBy: { field: "creation", order: "desc" },
-    limit: 100,
+    limit_start: (page - 1) * pageSize,
+    limit: pageSize,
   });
 
-//   const toggleLike = (name: string) => {
-//     setLiked((prev) => {
-//       const next = new Set(prev);
-//       if (next.has(name)) next.delete(name);
-//       else next.add(name);
-//       return next;
-//     });
-//   };
+  //   const toggleLike = (name: string) => {
+  //     setLiked((prev) => {
+  //       const next = new Set(prev);
+  //       if (next.has(name)) next.delete(name);
+  //       else next.add(name);
+  //       return next;
+  //     });
+  //   };
 
-//   const toggleSelect = (name: string) => {
-//     setSelected((prev) => {
-//       const next = new Set(prev);
-//       if (next.has(name)) next.delete(name);
-//       else next.add(name);
-//       return next;
-//     });
-//   };
+  //   const toggleSelect = (name: string) => {
+  //     setSelected((prev) => {
+  //       const next = new Set(prev);
+  //       if (next.has(name)) next.delete(name);
+  //       else next.add(name);
+  //       return next;
+  //     });
+  //   };
 
-//   const allSelected = useMemo(
-//     () => !!bookings?.length && selected.size === bookings.length,
-//     [bookings, selected]
-//   );
+  //   const allSelected = useMemo(
+  //     () => !!bookings?.length && selected.size === bookings.length,
+  //     [bookings, selected]
+  //   );
 
-//   const toggleAll = () => {
-//     if (!bookings) return;
-//     if (allSelected) {
-//       setSelected(new Set());
-//     } else {
-//       setSelected(new Set(bookings.map((b) => b.name)));
-//     }
-//   };
+  //   const toggleAll = () => {
+  //     if (!bookings) return;
+  //     if (allSelected) {
+  //       setSelected(new Set());
+  //     } else {
+  //       setSelected(new Set(bookings.map((b) => b.name)));
+  //     }
+  //   };
 
   if (authLoading || isLoading) return <Loader variant="page" />;
 
@@ -137,10 +140,10 @@ const BookingList = () => {
         </Link>
       </Flex>
 
-      <Box bg="white" borderRadius="xl" overflow="hidden" shadow="xl">
+      <div className=" my-2 border border-gray-400 max-w-[1820px] mx-auto rounded-lg overflow-hidden shadow-lg backdrop-blur-md bg-white bg-opacity-10  text-white">
         <Table.Root size="lg" variant="line" showColumnBorder={false}>
-          <Table.Header bg="gray.50">
-            <Table.Row>
+          <Table.Header>
+            <Table.Row bg="transparent">
               {/* <Table.ColumnHeader w="40px" ps={3}>
                 <ChakraCheckbox.Root
                   checked={allSelected}
@@ -152,28 +155,65 @@ const BookingList = () => {
                 </ChakraCheckbox.Root>
               </Table.ColumnHeader> */}
               {/* <Table.ColumnHeader w="40px" /> */}
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" letterSpacing="wider" textTransform="uppercase" ps={6}>
+              <Table.ColumnHeader
+                fontWeight="semibold"
+                fontSize="xs"
+                letterSpacing="wider"
+                textTransform="uppercase"
+                ps={6}
+                color="gray.200"
+              >
                 Meeting Title
               </Table.ColumnHeader>
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" letterSpacing="wider" textTransform="uppercase">
+              <Table.ColumnHeader
+                color="gray.200"
+                fontWeight="semibold"
+                fontSize="xs"
+                letterSpacing="wider"
+                textTransform="uppercase"
+              >
                 Meeting Room
               </Table.ColumnHeader>
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" letterSpacing="wider" textTransform="uppercase">
+              <Table.ColumnHeader
+                color="gray.200"
+                fontWeight="semibold"
+                fontSize="xs"
+                letterSpacing="wider"
+                textTransform="uppercase"
+              >
                 Time
               </Table.ColumnHeader>
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" letterSpacing="wider" textTransform="uppercase">
+              <Table.ColumnHeader
+                color="gray.200"
+                fontWeight="semibold"
+                fontSize="xs"
+                letterSpacing="wider"
+                textTransform="uppercase"
+              >
                 Date
               </Table.ColumnHeader>
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" letterSpacing="wider" textTransform="uppercase">
+              <Table.ColumnHeader
+                color="gray.200"
+                fontWeight="semibold"
+                fontSize="xs"
+                letterSpacing="wider"
+                textTransform="uppercase"
+              >
                 ID
               </Table.ColumnHeader>
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" letterSpacing="wider" textTransform="uppercase">
+              <Table.ColumnHeader
+                color="gray.200"
+                fontWeight="semibold"
+                fontSize="xs"
+                letterSpacing="wider"
+                textTransform="uppercase"
+              >
                 Status
               </Table.ColumnHeader>
               {/* <Table.ColumnHeader w="30px" /> */}
-              <Table.ColumnHeader color="gray.500" fontWeight="semibold" fontSize="xs" textAlign="end" pe={6}>
+              {/* <Table.ColumnHeader color="gray.200" fontWeight="semibold" fontSize="xs" textAlign="end" pe={6}>
                 {bookings?.length ? `${bookings.length} of ${bookings.length}` : ""}
-              </Table.ColumnHeader>
+              </Table.ColumnHeader> */}
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -182,7 +222,9 @@ const BookingList = () => {
               return (
                 <Table.Row
                   key={booking.name}
-                  _hover={{ bg: "gray.50" }}
+                  _hover={{ bg: "white/10" }}
+                  bg={"transparent"}
+                  color={"white"}
                   cursor="pointer"
                   transition="all 0.2s"
                 >
@@ -213,19 +255,13 @@ const BookingList = () => {
                       </Icon>
                     </IconButton>
                   </Table.Cell> */}
-                  <Table.Cell ps={6} fontWeight="medium" color="gray.800">
+                  <Table.Cell ps={6} fontWeight="medium" color="white">
                     {booking.title}
                   </Table.Cell>
-                  <Table.Cell color="gray.600">
-                    {booking.meeting_room}
-                  </Table.Cell>
-                  <Table.Cell color="gray.600">
-                    {booking.start_time}
-                  </Table.Cell>
-                  <Table.Cell color="gray.600">
-                    {booking.start_date}
-                  </Table.Cell>
-                  <Table.Cell color="gray.500" fontFamily="mono" fontSize="sm">
+                  <Table.Cell color={"white"}>{booking.meeting_room}</Table.Cell>
+                  <Table.Cell color={"white"}>{booking.start_time}</Table.Cell>
+                  <Table.Cell color={"white"}>{booking.start_date}</Table.Cell>
+                  <Table.Cell color={"white"} fontFamily="mono" fontSize="sm">
                     {truncateId(booking.name)}
                   </Table.Cell>
                   <Table.Cell>
@@ -234,7 +270,13 @@ const BookingList = () => {
                         w="6px"
                         h="6px"
                         borderRadius="full"
-                        bg={status.color === "blue" ? "blue.500" : status.color === "red" ? "red.400" : "gray.400"}
+                        bg={
+                          status.color === "blue"
+                            ? "blue.500"
+                            : status.color === "red"
+                              ? "red.400"
+                              : "gray.400"
+                        }
                       />
                       <Badge
                         variant="subtle"
@@ -249,7 +291,7 @@ const BookingList = () => {
                       </Badge>
                     </HStack>
                   </Table.Cell>
-                  <Table.Cell pe={6} />
+                  {/* <Table.Cell pe={6} /> */}
                   {/* <Table.Cell>
                     <Text color="gray.400" fontSize="sm">-</Text>
                   </Table.Cell> */}
@@ -287,7 +329,15 @@ const BookingList = () => {
             )}
           </Table.Body>
         </Table.Root>
-      </Box>
+      </div>
+      <div className="flex justify-end py-4">
+        <Pagination
+          count={count}
+          pageSize={pageSize}
+          page={page}
+          onPageChange={({ page }) => setPage(page)}
+        />
+      </div>
     </Box>
   );
 };
